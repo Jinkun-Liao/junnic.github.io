@@ -258,13 +258,16 @@
       fetch(`notes/${slug}.md`).then(r=>r.text()).then(md => {
         const renderer = new marked.Renderer();
         const headingIds = [];
-        renderer.heading = function(text, level){
+        renderer.heading = function(token){
+          const text = token.text || String(token);
+          const level = token.depth || 1;
           const id = text.toLowerCase().replace(/[^a-z0-9]+/g,'-');
           headingIds.push({text, level, id});
           return `<h${level} id="${id}">${text}</h${level}>`;
         };
-        renderer.code = function(code, infostring){
-          const lang = (infostring||'').trim();
+        renderer.code = function(token){
+          const code = token.text || String(token);
+          const lang = (token.lang || '').trim();
           if(lang==='js-run' || lang==='py-run'){
             const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
             const runLabel = lang==='js-run'? '运行JS' : '运行Python';
