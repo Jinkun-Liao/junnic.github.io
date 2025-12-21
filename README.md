@@ -26,13 +26,20 @@ node server.js
 
 #### 选项 2：部署到支持私有文件的平台
 
-- **Vercel/Netlify**：可以在构建时上传私有文件，或使用环境变量/secrets
 - **Railway/Render**：支持完整的服务端部署，可以包含私有文件
-- **Cloudflare Pages + R2**：将私有内容存储在 R2，通过 Workers 访问
+  - 直接部署 Express 服务器，私有文件保留在服务器上
+  - 设置环境变量配置端口和认证信息
+- **Vercel**：使用 Vercel CLI 部署时上传私有文件
+  - 将 `notes/` 和 `pic/` 从本地 `.vercelignore` 中排除（但保留在 `.gitignore` 中）
+  - 文件会上传到 Vercel 但不会出现在 Git 仓库中
 
-#### 选项 3：使用 Cloudflare Access
+注意：以上方案都要求您在部署时能访问本地的私有文件。
 
-如果您想继续使用 GitHub Pages，可以使用 Cloudflare Access 为特定路径（如 `/notes/` 和 `/pic/`）添加访问控制。但这样源文件仍然在公开仓库中。
+#### ~~选项 3：使用 Cloudflare Access~~
+
+~~如果您想继续使用 GitHub Pages，可以使用 Cloudflare Access 为特定路径（如 `/notes/` 和 `/pic/`）添加访问控制。但这样源文件仍然在公开仓库中。~~
+
+⚠️ **不推荐**：此方案无法保护源文件隐私，因为文件仍需存在于公开仓库中。如需真正保护隐私，请使用选项 1 或 2。
 
 ### 本地开发
 
