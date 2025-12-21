@@ -2,6 +2,44 @@
 
 一个现代的学术主页与笔记门户。
 
+## 重要说明：私有内容保护
+
+为了在公开网站的同时保护源文件的隐私，`notes/` 和 `pic/` 目录已被添加到 `.gitignore` 中，**不会被推送到 GitHub 仓库**。这意味着：
+
+- ✅ 网站的 HTML、CSS、JavaScript 代码是公开的
+- ✅ `notes/` 和 `pic/` 目录的内容保持私有
+- ⚠️ **无法直接使用 GitHub Pages 部署**（因为私有文件不在仓库中）
+
+### 部署选项
+
+由于内容文件不在仓库中，您需要使用以下方式之一来部署网站：
+
+#### 选项 1：使用本地 Express 服务器（推荐用于本地开发和自托管）
+
+```bash
+cd server
+npm install
+node server.js
+```
+
+然后访问 `http://localhost:3000`
+
+#### 选项 2：部署到支持私有文件的平台
+
+- **Vercel/Netlify**：可以在构建时上传私有文件，或使用环境变量/secrets
+- **Railway/Render**：支持完整的服务端部署，可以包含私有文件
+- **Cloudflare Pages + R2**：将私有内容存储在 R2，通过 Workers 访问
+
+#### 选项 3：使用 Cloudflare Access
+
+如果您想继续使用 GitHub Pages，可以使用 Cloudflare Access 为特定路径（如 `/notes/` 和 `/pic/`）添加访问控制。但这样源文件仍然在公开仓库中。
+
+### 本地开发
+
+即使 `notes/` 和 `pic/` 不在 Git 中，它们仍然存在于您的本地文件系统中。您可以：
+- 直接在浏览器中打开 HTML 文件进行测试
+- 使用本地服务器（如上面的 Express 服务器或 `npx serve`）
+
 ## 笔记门户使用说明
 
 - 入口页面：`note.html`
@@ -119,3 +157,23 @@ node server.js
 ## 许可证
 
 站点内容为个人作品；所用库遵循各自的开源许可证（marked.js、Prism.js、KaTeX、Pyodide、Plotly）。
+
+---
+
+## 关于 .gitignore 的说明
+
+本仓库已将 `notes/` 和 `pic/` 添加到 `.gitignore` 文件中。这意味着：
+
+1. **本地开发**：这些目录的文件仍然存在于您的本地文件系统中，可以正常使用
+2. **Git 仓库**：这些文件不会被提交到 Git 仓库，保持私有
+3. **部署要求**：必须使用能够访问这些本地文件的部署方式（如本地 Express 服务器或支持文件上传的云平台）
+
+### 如果您想恢复 GitHub Pages 部署
+
+如果您希望继续使用 GitHub Pages，需要：
+
+1. 从 `.gitignore` 文件中删除 `notes/` 和 `pic/` 两行
+2. 运行 `git add notes/ pic/`
+3. 提交并推送到 GitHub
+
+但请注意，这样做会使这些目录的内容在 GitHub 仓库中公开可见。
