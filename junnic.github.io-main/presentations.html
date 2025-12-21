@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentations - Jinkun Liao</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
+        <h3 class="logo">
+          <span class="lang-en">Jinkun Liao</span>
+          <span class="lang-zh">廖锦琨</span>
+          <span class="lang-ja">リョウ　キンコン</span>
+        </h3>
+      </div>
+      <div class="header-right">
+        <a href="index.html">
+          <span class="lang-en">Home</span>
+          <span class="lang-zh">首页</span>
+          <span class="lang-ja">ホーム</span>
+        </a>
+        <a href="cv.html">
+          <span class="lang-en">CV</span>
+          <span class="lang-zh">简历</span>
+          <span class="lang-ja">履歴書</span>
+        </a>
+        <a href="research.html">
+          <span class="lang-en">Research</span>
+          <span class="lang-zh">研究</span>
+          <span class="lang-ja">研究</span>
+        </a>
+        <a href="publications.html">
+          <span class="lang-en">Publications</span>
+          <span class="lang-zh">论文</span>
+          <span class="lang-ja">論文</span>
+        </a>
+        <a href="presentations.html" class="active">
+          <span class="lang-en">Presentations</span>
+          <span class="lang-zh">演讲</span>
+          <span class="lang-ja">発表</span>
+        </a>
+        <a href="contact.html">
+          <span class="lang-en">Contact</span>
+          <span class="lang-zh">联系</span>
+          <span class="lang-ja">連絡先</span>
+        </a>
+        <div class="lang-selector">
+          <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Left Sidebar Drawer -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
+      <div class="sidebar-title">
+        <span class="lang-en">Menu</span>
+        <span class="lang-zh">菜单</span>
+        <span class="lang-ja">メニュー</span>
+      </div>
+      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li class="sidebar-item">
+          <span class="fa fa-sticky-note"></span>
+          <a href="note.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Note</span>
+            <span class="lang-zh">笔记</span>
+            <span class="lang-ja">ノート</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <span class="fa fa-link"></span>
+          <a href="links.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Links</span>
+            <span class="lang-zh">链接</span>
+            <span class="lang-ja">リンク</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="page-heading">
+        <h1>
+          <span class="lang-en">Presentations</span>
+          <span class="lang-zh">演讲与报告</span>
+          <span class="lang-ja">プレゼンテーション</span>
+        </h1>
+      </div>
+      
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <button class="filter-chip" data-filter="recent">
+          <span class="lang-en">Recent</span>
+          <span class="lang-zh">近期</span>
+          <span class="lang-ja">最近</span>
+        </button>
+        <button class="filter-chip" data-filter="all">
+          <span class="lang-en">All</span>
+          <span class="lang-zh">全部</span>
+          <span class="lang-ja">すべて</span>
+        </button>
+        <!-- Year chips will be populated by JS -->
+        <div id="year-chips"></div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-card" id="pres-results">
+        <div class="result-item" data-year="2025">
+          <h3>Cooling Dynamics of Proto-Neutron Stars</h3>
+          <div class="meta">International Conference on Astrophysics • 2025 • Tokyo</div>
+        </div>
+        <div class="result-item" data-year="2024">
+          <h3>Neutrino Transport and Thermal Evolution</h3>
+          <div class="meta">Graduate Seminar • 2024 • TUS</div>
+        </div>
+        <div class="result-item" data-year="2023">
+          <h3>EOS Dependence in PNS Cooling</h3>
+          <div class="meta">Department Colloquium • 2023 • Waseda</div>
+        </div>
+        <p style="text-align: center; color: #9ca3af; margin-top: 10px;">
+          <span class="lang-en">More talks will be updated.</span>
+          <span class="lang-zh">更多演讲将持续更新。</span>
+          <span class="lang-ja">さらに発表を更新予定です。</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p class="copyright">© <span id="year"></span> Jinkun Liao. All rights reserved.</p>
+      <p>
+        <a href="https://github.com/junnic" class="social-link" target="_blank"><span class="fa fa-github"></span></a>
+        <a href="#" class="social-link"><span class="fa fa-linkedin"></span></a>
+        <a href="#" class="social-link"><span class="fa fa-twitter"></span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function changeLanguage(lang) {
+      document.body.setAttribute('data-lang', lang);
+      localStorage.setItem('preferredLanguage', lang);
+    }
+    // Sidebar Toggle
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.querySelector('.close-sidebar');
+    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      document.getElementById('language-select').value = savedLang;
+      changeLanguage(savedLang);
+
+      // Build year chips from items
+      const items = Array.from(document.querySelectorAll('#pres-results .result-item'));
+      const years = Array.from(new Set(items.map(i => i.getAttribute('data-year')))).sort((a,b)=>b-a);
+      const yearChips = document.getElementById('year-chips');
+      years.forEach(y => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-chip';
+        btn.dataset.filter = `year-${y}`;
+        btn.textContent = y;
+        yearChips.appendChild(btn);
+      });
+
+      // Filter logic
+      const nowYear = new Date().getFullYear();
+      const chips = document.querySelectorAll('.filter-chip');
+      function setActive(target) {
+        chips.forEach(c => c.classList.remove('active'));
+        target.classList.add('active');
+      }
+      function applyFilter(filter) {
+        if (filter === 'recent') {
+          items.forEach(i => {
+            const y = parseInt(i.getAttribute('data-year'), 10);
+            i.style.display = (y === nowYear || y === nowYear - 1) ? '' : 'none';
+          });
+        } else if (filter === 'all') {
+          items.forEach(i => i.style.display = '');
+        } else if (filter.startsWith('year-')) {
+          const y = parseInt(filter.split('-')[1], 10);
+          items.forEach(i => i.style.display = (parseInt(i.getAttribute('data-year'),10) === y) ? '' : 'none');
+        }
+      }
+      document.querySelector('.filter-chip[data-filter="recent"]').classList.add('active');
+      applyFilter('recent');
+      document.querySelector('.filter-bar').addEventListener('click', (e) => {
+        if (e.target.closest('.filter-chip')) {
+          const chip = e.target.closest('.filter-chip');
+          setActive(chip);
+          applyFilter(chip.dataset.filter);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

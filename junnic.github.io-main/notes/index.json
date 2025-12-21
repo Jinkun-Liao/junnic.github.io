@@ -1,0 +1,34 @@
+[
+  {
+    "title": "示例笔记：Proto-Neutron Star Cooling",
+    "slug": "sample",
+    "date": "2025-12-22",
+    "tags": ["astro", "neutron-star", "cooling", "code", "math"],
+    "lang": "zh",
+    "summary": "简要回顾原初中子星冷却的基本物理，包含数学公式与可运行的代码示例。"
+  },
+  {
+    "title": "代码行号展示（Qiita风格示例）",
+    "slug": "qiita-lines",
+    "date": "2025-12-22",
+    "tags": ["code", "lines", "qiita"],
+    "lang": "zh",
+    "summary": "演示 Prism 行号、复制与语言标签的代码展示。"
+  },
+  {
+    "title": "交互式示例：滑块与图形",
+    "slug": "interactive-demo",
+    "date": "2025-12-22",
+    "tags": ["interactive", "plotly", "slider"],
+    "lang": "zh",
+    "summary": "展示滑块参数控制、Plotly 图、可折叠练习等交互组件。"
+  },
+  {
+    "title": "门户模式示例（Nakasho 风格）",
+    "slug": "nakasho-portal",
+    "date": "2025-12-22",
+    "tags": ["portal", "routing", "design"],
+    "lang": "zh",
+    "summary": "说明列表→详情门户模式与 `?note=slug` 路由机制。"
+  }
+]

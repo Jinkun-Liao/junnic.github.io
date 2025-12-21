@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes - Jinkun Liao</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <!-- Prism CSS (theme + plugins) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/show-language/prism-show-language.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <!-- Prism JS (core + plugins) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <style>
+    /* Page-specific minimal overrides if needed (kept empty to use global stylesheet.css) */
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
+        <h3 class="logo">
+          <span class="lang-en">Jinkun Liao</span>
+          <span class="lang-zh">廖锦琨</span>
+          <span class="lang-ja">リョウ　キンコン</span>
+        </h3>
+      </div>
+      <div class="header-right">
+        <a href="index.html">
+          <span class="lang-en">Home</span>
+          <span class="lang-zh">首页</span>
+          <span class="lang-ja">ホーム</span>
+        </a>
+        <a href="cv.html">
+          <span class="lang-en">CV</span>
+          <span class="lang-zh">简历</span>
+          <span class="lang-ja">履歴書</span>
+        </a>
+        <a href="research.html">
+          <span class="lang-en">Research</span>
+          <span class="lang-zh">研究</span>
+          <span class="lang-ja">研究</span>
+        </a>
+        <a href="publications.html">
+          <span class="lang-en">Publications</span>
+          <span class="lang-zh">论文</span>
+          <span class="lang-ja">論文</span>
+        </a>
+        <a href="presentations.html">
+          <span class="lang-en">Presentations</span>
+          <span class="lang-zh">演讲</span>
+          <span class="lang-ja">発表</span>
+        </a>
+        <a href="contact.html">
+          <span class="lang-en">Contact</span>
+          <span class="lang-zh">联系</span>
+          <span class="lang-ja">連絡先</span>
+        </a>
+        <div class="lang-selector">
+          <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Sidebar Drawer -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
+      <div class="sidebar-title">
+        <span class="lang-en">Menu</span>
+        <span class="lang-zh">菜单</span>
+        <span class="lang-ja">メニュー</span>
+      </div>
+      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li class="sidebar-item">
+          <span class="fa fa-link"></span>
+          <a href="links.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Links</span>
+            <span class="lang-zh">链接</span>
+            <span class="lang-ja">リンク</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Notes Portal -->
+  <div class="notes-container" id="notes-container">
+    <aside class="notes-list">
+      <div class="notes-list-header">
+        <span style="font-weight:700;">Notes</span>
+        <button class="btn" id="refresh-btn">刷新</button>
+      </div>
+      <div style="padding: 12px 16px;">
+        <input id="search-input" class="notes-search" placeholder="搜索标题/标签..." />
+      </div>
+      <div class="tag-bar" id="tag-bar"></div>
+      <div id="notes-cards"></div>
+    </aside>
+    <main class="note-view" id="note-view">
+      <div class="note-view-header">
+        <div>
+          <div class="note-title" id="note-title-display">选择左侧一条笔记</div>
+          <div class="note-meta" id="note-meta-display"></div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn" id="back-btn" style="display:none;">返回列表</button>
+          <button class="btn" id="copy-link-btn">复制链接</button>
+        </div>
+      </div>
+      <div class="note-content">
+        <div class="toc" id="toc"></div>
+        <article id="note-article"></article>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Language setup
+    function changeLanguage(lang) {
+      document.body.setAttribute('data-lang', lang);
+      localStorage.setItem('preferredLanguage', lang);
+    }
+
+    // Sidebar toggle
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.querySelector('.close-sidebar');
+    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+    // Notes data
+    let NOTES_INDEX = [];
+    let ACTIVE_TAG = null;
+    let SEARCH_TEXT = '';
+    let ACTIVE_PAGE = 1;
+    const PAGE_SIZE = 10;
+    let PYODIDE_READY = false;
+    let pyodide = null;
+
+    async function loadIndex(){
+      const res = await fetch('notes/index.json');
+      NOTES_INDEX = await res.json();
+      renderTagBar();
+      renderCards();
+    }
+
+    function renderTagBar(){
+      const tags = Array.from(new Set(NOTES_INDEX.flatMap(n => n.tags || []))).sort();
+      const bar = document.getElementById('tag-bar');
+      bar.innerHTML = '';
+      const all = document.createElement('span');
+      all.className = 'tag-chip' + (ACTIVE_TAG===null ? ' active' : '');
+      all.textContent = '全部';
+      all.onclick = () => { ACTIVE_TAG=null; renderCards(); };
+      bar.appendChild(all);
+      tags.forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = 'tag-chip' + (ACTIVE_TAG===t ? ' active' : '');
+        chip.textContent = t;
+        chip.onclick = () => { ACTIVE_TAG = (ACTIVE_TAG===t?null:t); renderTagBar(); renderCards(); };
+        bar.appendChild(chip);
+      });
+    }
+
+    function renderCards(){
+      const wrap = document.getElementById('notes-cards');
+      wrap.innerHTML = '';
+      const filtered = NOTES_INDEX.filter(n => {
+        const matchTag = ACTIVE_TAG? (n.tags||[]).includes(ACTIVE_TAG) : true;
+        const s = SEARCH_TEXT.toLowerCase();
+        const matchText = !s || (n.title.toLowerCase().includes(s) || (n.tags||[]).some(t=>t.toLowerCase().includes(s)) || (n.summary||'').toLowerCase().includes(s));
+        return matchTag && matchText;
+      });
+      // pagination
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if (ACTIVE_PAGE > totalPages) ACTIVE_PAGE = totalPages;
+      const start = (ACTIVE_PAGE - 1) * PAGE_SIZE;
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
+      pageItems.forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'note-card';
+        card.onclick = () => openNote(n.slug);
+        card.innerHTML = `<div class="note-card-title">${n.title}</div><div class="note-card-meta">${n.date} · ${(n.tags||[]).join(', ')}</div>`;
+        wrap.appendChild(card);
+      });
+      if(filtered.length===0){
+        const empty = document.createElement('div');
+        empty.style.cssText = 'padding:16px;color:#94a3b8;';
+        empty.textContent = '没有匹配的笔记';
+        wrap.appendChild(empty);
+      }
+      // render pagination
+      const pag = document.createElement('div');
+      pag.className = 'pagination';
+      const prev = document.createElement('button');
+      prev.className = 'page-btn';
+      prev.textContent = '上一页';
+      prev.disabled = ACTIVE_PAGE<=1;
+      prev.onclick = () => { ACTIVE_PAGE = Math.max(1, ACTIVE_PAGE-1); renderCards(); };
+      const info = document.createElement('span');
+      info.className = 'page-info';
+      info.textContent = `${ACTIVE_PAGE}/${Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))}`;
+      const next = document.createElement('button');
+      next.className = 'page-btn';
+      next.textContent = '下一页';
+      next.disabled = ACTIVE_PAGE>=Math.ceil(filtered.length / PAGE_SIZE);
+      next.onclick = () => { ACTIVE_PAGE = Math.min(Math.ceil(filtered.length / PAGE_SIZE), ACTIVE_PAGE+1); renderCards(); };
+      pag.append(prev, info, next);
+      wrap.appendChild(pag);
+    }
+
+    function openNote(slug){
+      const meta = NOTES_INDEX.find(n=>n.slug===slug);
+      const titleEl = document.getElementById('note-title-display');
+      const metaEl = document.getElementById('note-meta-display');
+      const tocEl = document.getElementById('toc');
+      const articleEl = document.getElementById('note-article');
+
+      history.replaceState(null, '', `note.html?note=${encodeURIComponent(slug)}`);
+      document.getElementById('back-btn').style.display = 'inline-block';
+
+      titleEl.textContent = meta? meta.title : slug;
+      metaEl.textContent = meta? `${meta.date} · ${(meta.tags||[]).join(', ')}` : '';
+      tocEl.innerHTML = '';
+      articleEl.innerHTML = '加载中...';
+
+      fetch(`notes/${slug}.md`).then(r=>r.text()).then(md => {
+        const renderer = new marked.Renderer();
+        const headingIds = [];
+        renderer.heading = function(text, level){
+          const id = text.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+          headingIds.push({text, level, id});
+          return `<h${level} id="${id}">${text}</h${level}>`;
+        };
+        renderer.code = function(code, infostring){
+          const lang = (infostring||'').trim();
+          if(lang==='js-run' || lang==='py-run'){
+            const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            const runLabel = lang==='js-run'? '运行JS' : '运行Python';
+            return `
+            <div class="run-block" data-lang="${lang}">
+              <div class="run-toolbar"><span>${runLabel}</span><button class="btn run-btn">运行</button></div>
+              <pre class="line-numbers"><code class="language-${lang==='js-run'?'javascript':'python'}">${safe}</code></pre>
+              <div class="run-output"></div>
+            </div>`;
+          }
+          const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+          return `<pre class="line-numbers"><code class="language-${lang}">${safe}</code></pre>`;
+        };
+        const html = marked.parse(md, { renderer });
+        articleEl.innerHTML = html;
+        // Build TOC
+        tocEl.innerHTML = headingIds.map(h=>`<a href="#${h.id}" style="margin-left:${(h.level-1)*10}px">${h.text}</a>`).join('');
+        // Prism highlight
+        Prism.highlightAllUnder(articleEl);
+        // KaTeX auto-render
+        try {
+          if (window.renderMathInElement) {
+            renderMathInElement(articleEl, { delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ]});
+          }
+        } catch (e) { console.warn('KaTeX render failed', e); }
+        // Bind run buttons
+        bindRunBlocks(articleEl);
+      }).catch(err => {
+        articleEl.textContent = '加载失败：' + err;
+      });
+    }
+
+    function bindRunBlocks(root){
+      root.querySelectorAll('.run-block').forEach(block => {
+        const btn = block.querySelector('.run-btn');
+        const out = block.querySelector('.run-output');
+        const lang = block.getAttribute('data-lang');
+        const codeEl = block.querySelector('code');
+        const code = codeEl.textContent;
+        btn.onclick = async () => {
+          out.textContent = '';
+          try{
+            if(lang==='js-run'){
+              // Provide RUN_CTX for DOM interactions
+              window.RUN_CTX = { block, out };
+              const result = Function(`"use strict";\n${code}`)();
+              out.textContent = formatResult(result);
+            } else if(lang==='py-run'){
+              await ensurePyodide();
+              const pyResult = await pyodide.runPythonAsync(code);
+              out.textContent = formatResult(pyResult);
+            }
+          }catch(e){ out.textContent = '错误: ' + e; }
+        };
+      });
+    }
+
+    function formatResult(r){
+      if(r===undefined) return '完成，无返回值';
+      if(typeof r === 'object'){
+        try { return JSON.stringify(r, null, 2); } catch { return String(r); }
+      }
+      return String(r);
+    }
+
+    async function ensurePyodide(){
+      if(PYODIDE_READY) return;
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
+      document.body.appendChild(script);
+      await new Promise(res => script.onload = res);
+      // global loadPyodide
+      pyodide = await loadPyodide();
+      PYODIDE_READY = true;
+    }
+
+    function backToList(){
+      history.replaceState(null, '', 'note.html');
+      document.getElementById('back-btn').style.display = 'none';
+      document.getElementById('note-title-display').textContent = '选择左侧一条笔记';
+      document.getElementById('note-meta-display').textContent = '';
+      document.getElementById('toc').innerHTML = '';
+      document.getElementById('note-article').innerHTML = '';
+    }
+
+    function copyLink(){
+      navigator.clipboard.writeText(location.href).then(()=>{
+        alert('链接已复制');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      document.getElementById('language-select').value = savedLang;
+      changeLanguage(savedLang);
+
+      document.getElementById('search-input').addEventListener('input', (e)=>{ SEARCH_TEXT=e.target.value; ACTIVE_PAGE=1; renderCards(); });
+      document.getElementById('refresh-btn').addEventListener('click', loadIndex);
+      document.getElementById('back-btn').addEventListener('click', backToList);
+      document.getElementById('copy-link-btn').addEventListener('click', copyLink);
+
+      loadIndex();
+
+      const url = new URL(location.href);
+      const slug = url.searchParams.get('note');
+      if(slug) {
+        // Wait index so meta is available
+        loadIndex().then(()=>openNote(slug));
+      }
+    });
+  </script>
+</body>
+</html>

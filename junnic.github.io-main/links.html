@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Links - Jinkun Liao</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style>
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+
+    .link-category {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      border-top: 4px solid #64ffda;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #64ffda, transparent);
+    }
+
+    .link-category:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 35px rgba(100, 255, 218, 0.15);
+      border-color: rgba(100, 255, 218, 0.3);
+    }
+
+    .link-category h3 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      color: #1a2332;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .link-category h3 .fa {
+      color: #64ffda;
+      font-size: 20px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      color: #2c3e50;
+      text-decoration: none;
+      border-bottom: 1px solid #f0f0f0;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .link-item:last-child {
+      border-bottom: none;
+    }
+
+    .link-item:hover {
+      color: #64ffda;
+      padding-left: 6px;
+      transform: translateX(2px);
+    }
+
+    .link-item-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      margin-right: 10px;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .page-wrapper {
+      background: linear-gradient(135deg, #f5f7fc 0%, #f0f3f8 100%);
+    }
+
+    @media (max-width: 768px) {
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
+        <h3 class="logo">
+          <span class="lang-en">Jinkun Liao</span>
+          <span class="lang-zh">廖锦琨</span>
+          <span class="lang-ja">リョウ　キンコン</span>
+        </h3>
+      </div>
+      <div class="header-right">
+        <a href="index.html">
+          <span class="lang-en">Home</span>
+          <span class="lang-zh">首页</span>
+          <span class="lang-ja">ホーム</span>
+        </a>
+        <a href="cv.html">
+          <span class="lang-en">CV</span>
+          <span class="lang-zh">简历</span>
+          <span class="lang-ja">履歴書</span>
+        </a>
+        <a href="research.html">
+          <span class="lang-en">Research</span>
+          <span class="lang-zh">研究</span>
+          <span class="lang-ja">研究</span>
+        </a>
+        <a href="publications.html">
+          <span class="lang-en">Publications</span>
+          <span class="lang-zh">论文</span>
+          <span class="lang-ja">論文</span>
+        </a>
+        <a href="presentations.html">
+          <span class="lang-en">Presentations</span>
+          <span class="lang-zh">演讲</span>
+          <span class="lang-ja">発表</span>
+        </a>
+        <a href="contact.html">
+          <span class="lang-en">Contact</span>
+          <span class="lang-zh">联系</span>
+          <span class="lang-ja">連絡先</span>
+        </a>
+        <div class="lang-selector">
+          <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Sidebar Drawer -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
+      <div class="sidebar-title">
+        <span class="lang-en">Menu</span>
+        <span class="lang-zh">菜单</span>
+        <span class="lang-ja">メニュー</span>
+      </div>
+      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li class="sidebar-item">
+          <span class="fa fa-sticky-note"></span>
+          <a href="note.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Note</span>
+            <span class="lang-zh">笔记</span>
+            <span class="lang-ja">ノート</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="page-heading">
+        <h1>
+          <span class="lang-en">Useful Links</span>
+          <span class="lang-zh">常用链接</span>
+          <span class="lang-ja">便利なリンク</span>
+        </h1>
+        <p>
+          <span class="lang-en">A collection of tools and resources I frequently use</span>
+          <span class="lang-zh">我经常使用的工具和资源集合</span>
+          <span class="lang-ja">よく使うツールとリソースのコレクション</span>
+        </p>
+      </div>
+
+      <div class="links-grid">
+        <!-- Academic Resources -->
+        <div class="link-category">
+          <h3><span class="fa fa-graduation-cap"></span>
+            <span class="lang-en">Academic</span>
+            <span class="lang-zh">学术</span>
+            <span class="lang-ja">学術</span>
+          </h3>
+          <a href="https://arxiv.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">📄</span>arXiv
+          </a>
+          <a href="https://www.researchgate.net/" target="_blank" class="link-item">
+            <span class="link-item-icon">🔬</span>ResearchGate
+          </a>
+          <a href="https://scholar.google.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">🔍</span>Google Scholar
+          </a>
+          <a href="https://www.semanticscholar.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">📚</span>Semantic Scholar
+          </a>
+        </div>
+
+        <!-- Development Tools -->
+        <div class="link-category">
+          <h3><span class="fa fa-code"></span>
+            <span class="lang-en">Development</span>
+            <span class="lang-zh">开发</span>
+            <span class="lang-ja">開発</span>
+          </h3>
+          <a href="https://github.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">💻</span>GitHub
+          </a>
+          <a href="https://stackoverflow.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">❓</span>Stack Overflow
+          </a>
+          <a href="https://www.w3schools.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">📖</span>W3Schools
+          </a>
+          <a href="https://mdn.mozilla.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">📚</span>MDN Web Docs
+          </a>
+        </div>
+
+        <!-- Communication -->
+        <div class="link-category">
+          <h3><span class="fa fa-comments"></span>
+            <span class="lang-en">Communication</span>
+            <span class="lang-zh">交流</span>
+            <span class="lang-ja">コミュニケーション</span>
+          </h3>
+          <a href="https://mail.google.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">✉️</span>Gmail
+          </a>
+          <a href="https://slack.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">💬</span>Slack
+          </a>
+          <a href="https://discord.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">🎙️</span>Discord
+          </a>
+          <a href="https://zoom.us/" target="_blank" class="link-item">
+            <span class="link-item-icon">📹</span>Zoom
+          </a>
+        </div>
+
+        <!-- Productivity -->
+        <div class="link-category">
+          <h3><span class="fa fa-tasks"></span>
+            <span class="lang-en">Productivity</span>
+            <span class="lang-zh">效率</span>
+            <span class="lang-ja">生産性</span>
+          </h3>
+          <a href="https://www.notion.so/" target="_blank" class="link-item">
+            <span class="link-item-icon">📝</span>Notion
+          </a>
+          <a href="https://todoist.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">✅</span>Todoist
+          </a>
+          <a href="https://www.overleaf.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">📄</span>Overleaf
+          </a>
+          <a href="https://www.canva.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">🎨</span>Canva
+          </a>
+        </div>
+
+        <!-- Science & Physics -->
+        <div class="link-category">
+          <h3><span class="fa fa-flask"></span>
+            <span class="lang-en">Physics</span>
+            <span class="lang-zh">物理</span>
+            <span class="lang-ja">物理学</span>
+          </h3>
+          <a href="https://physics.aps.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">⚛️</span>APS Journals
+          </a>
+          <a href="https://www.nature.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">🔬</span>Nature
+          </a>
+          <a href="https://science.sciencemag.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">📰</span>Science
+          </a>
+          <a href="https://iopscience.iop.org/" target="_blank" class="link-item">
+            <span class="link-item-icon">📚</span>IOP Science
+          </a>
+        </div>
+
+        <!-- Design & UI -->
+        <div class="link-category">
+          <h3><span class="fa fa-palette"></span>
+            <span class="lang-en">Design</span>
+            <span class="lang-zh">设计</span>
+            <span class="lang-ja">デザイン</span>
+          </h3>
+          <a href="https://dribbble.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">🎨</span>Dribbble
+          </a>
+          <a href="https://www.figma.com/" target="_blank" class="link-item">
+            <span class="link-item-icon">✏️</span>Figma
+          </a>
+          <a href="https://www.behance.net/" target="_blank" class="link-item">
+            <span class="link-item-icon">🖼️</span>Behance
+          </a>
+          <a href="https://www.coolors.co/" target="_blank" class="link-item">
+            <span class="link-item-icon">🌈</span>Coolors
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p class="copyright">© <span id="year"></span> Jinkun Liao. All rights reserved.</p>
+      <p>
+        <a href="https://github.com/junnic" class="social-link" target="_blank"><span class="fa fa-github"></span></a>
+        <a href="#" class="social-link"><span class="fa fa-linkedin"></span></a>
+        <a href="#" class="social-link"><span class="fa fa-twitter"></span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function changeLanguage(lang) {
+      document.body.setAttribute('data-lang', lang);
+      localStorage.setItem('preferredLanguage', lang);
+    }
+
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.querySelector('.close-sidebar');
+    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      document.getElementById('language-select').value = savedLang;
+      changeLanguage(savedLang);
+    });
+  </script>
+</body>
+</html>

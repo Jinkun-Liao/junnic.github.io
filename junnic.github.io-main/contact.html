@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Jinkun Liao</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
+        <h3 class="logo">
+          <span class="lang-en">Jinkun Liao</span>
+          <span class="lang-zh">廖锦琨</span>
+          <span class="lang-ja">リョウ　キンコン</span>
+        </h3>
+      </div>
+      <div class="header-right">
+        <a href="index.html">
+          <span class="lang-en">Home</span>
+          <span class="lang-zh">首页</span>
+          <span class="lang-ja">ホーム</span>
+        </a>
+        <a href="cv.html">
+          <span class="lang-en">CV</span>
+          <span class="lang-zh">简历</span>
+          <span class="lang-ja">履歴書</span>
+        </a>
+        <a href="research.html">
+          <span class="lang-en">Research</span>
+          <span class="lang-zh">研究</span>
+          <span class="lang-ja">研究</span>
+        </a>
+        <a href="publications.html">
+          <span class="lang-en">Publications</span>
+          <span class="lang-zh">论文</span>
+          <span class="lang-ja">論文</span>
+        </a>
+        <a href="presentations.html">
+          <span class="lang-en">Presentations</span>
+          <span class="lang-zh">演讲</span>
+          <span class="lang-ja">発表</span>
+        </a>
+        <a href="contact.html" class="active">
+          <span class="lang-en">Contact</span>
+          <span class="lang-zh">联系</span>
+          <span class="lang-ja">連絡先</span>
+        </a>
+        <div class="lang-selector">
+          <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Sidebar Drawer -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
+      <div class="sidebar-title">
+        <span class="lang-en">Menu</span>
+        <span class="lang-zh">菜单</span>
+        <span class="lang-ja">メニュー</span>
+      </div>
+      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li class="sidebar-item">
+          <span class="fa fa-sticky-note"></span>
+          <a href="note.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Note</span>
+            <span class="lang-zh">笔记</span>
+            <span class="lang-ja">ノート</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <span class="fa fa-link"></span>
+          <a href="links.html" style="color: inherit; text-decoration: none; flex: 1;">
+            <span class="lang-en">Links</span>
+            <span class="lang-zh">链接</span>
+            <span class="lang-ja">リンク</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="page-heading">
+        <h1>
+          <span class="lang-en">Contact Information</span>
+          <span class="lang-zh">联系方式</span>
+          <span class="lang-ja">連絡先情報</span>
+        </h1>
+      </div>
+      
+      <div style="background: white; padding: 50px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; max-width: 600px; margin: 0 auto;">
+        <div style="margin-bottom: 30px;">
+          <span class="fa fa-envelope" style="font-size: 40px; color: #64ffda; margin-bottom: 15px; display: block;"></span>
+          <h3 style="margin: 0; color: #2c3e50;">Email</h3>
+          <p style="color: #555; font-size: 18px;">6224704@ed.tus.ac.jp</p>
+          <!-- <p style="color: #555; font-size: 18px;">jinkun_liao@yahoo.co.jp</p> -->
+        </div>
+        
+        <div style="margin-top: 40px;">
+          <h3 style="margin-bottom: 20px; color: #2c3e50;">Social Media</h3>
+          <div style="display: flex; justify-content: center; gap: 20px;">
+            <a href="https://github.com/Jinkun-Liao" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #f0f0f0; border-radius: 50%; color: #333; font-size: 24px; transition: all 0.3s;">
+              <span class="fa fa-github"></span>
+            </a>
+            <a href="#" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #f0f0f0; border-radius: 50%; color: #0077b5; font-size: 24px; transition: all 0.3s;">
+              <span class="fa fa-linkedin"></span>
+            </a>
+            <a href="#" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #f0f0f0; border-radius: 50%; color: #1da1f2; font-size: 24px; transition: all 0.3s;">
+              <span class="fa fa-twitter"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p class="copyright">© <span id="year"></span> Jinkun Liao. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function changeLanguage(lang) {
+      document.body.setAttribute('data-lang', lang);
+      localStorage.setItem('preferredLanguage', lang);
+    }
+    // Sidebar Toggle
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.querySelector('.close-sidebar');
+    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+      document.getElementById('language-select').value = savedLang;
+      changeLanguage(savedLang);
+    });
+  </script>
+</body>
+</html>
