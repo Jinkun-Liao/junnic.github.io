@@ -6,6 +6,14 @@
   <title>Presentations - Jinkun Liao</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style>
+    /* badges for referee status */
+    .badge { display:inline-block; padding:2px 6px; border-radius:4px; font-size:12px; font-weight:600; color:#fff; margin-right:6px; }
+    .badge-ref { background:linear-gradient(90deg,#c05621,#dd6b20); }
+    .badge-unref { background:linear-gradient(90deg,#718096,#a0aec0); }
+    .legend { font-size:13px; color:#6b7280; display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+    .legend span { display:flex; align-items:center; gap:6px; }
+  </style>
 </head>
 <body>
   <header>
@@ -102,6 +110,13 @@
           <span class="lang-ja">プレゼンテーション</span>
         </h1>
       </div>
+
+      <div class="results-card" id="pres-upcoming" style="margin-bottom:16px;">
+        <div class="result-item" data-year="2026">
+          <h3>Upcoming presentation (TBD)</h3>
+          <div class="meta">Details to be decided • Location/venue TBA • Year 2026</div>
+        </div>
+      </div>
       
       <!-- Filter Bar -->
       <div class="filter-bar">
@@ -118,26 +133,55 @@
         <!-- Year chips will be populated by JS -->
         <div id="year-chips"></div>
       </div>
+      <div class="legend">
+        <span><span class="badge badge-ref">refereed</span><span class="lang-en">Peer-reviewed</span></span>
+        <span><span class="badge badge-unref">unrefereed</span><span class="lang-en">Not peer-reviewed</span></span>
+        <span class="lang-en">Recent covers current year and previous year.</span>
+      </div>
 
       <!-- Results -->
       <div class="results-card" id="pres-results">
         <div class="result-item" data-year="2025">
-          <h3>Cooling Dynamics of Proto-Neutron Stars</h3>
-          <div class="meta">International Conference on Astrophysics • 2025 • Tokyo</div>
+          <h3>原始中性子星の進化計算及び構造解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>Poster • 2025年度 第55回 天文・天体物理若手夏の学校 • 長野 • 2025年7月</div>
+        </div>
+        <div class="result-item" data-year="2025">
+          <h3>A research of proto-neutron star evolution and the structure near the surface</h3>
+          <div class="meta"><span class="badge badge-ref">refereed</span>Poster • 19th International Conference on Topicsin AstroparticleandUnderground Physics (TAUP2025) • Xichang, China • August 2025</div>
+        </div>
+        <div class="result-item" data-year="2025">
+          <h3>Proto-neutron star evolution with convection</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>Poster • The third annual conference of Transformative Research Areas(A), “Multimessenger Astrophysics” • Miyagi, Japan • November 2025</div>
+        </div>
+        
+        <div class="result-item" data-year="2024">
+          <h3>Evolution of Proto-neutron star and the structure near the surface</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>Oral • 第4回新学術「地下宇宙」若手研究会 • 仙台 • March 2024</div>
         </div>
         <div class="result-item" data-year="2024">
-          <h3>Neutrino Transport and Thermal Evolution</h3>
-          <div class="meta">Graduate Seminar • 2024 • TUS</div>
+          <h3>Evolution of Proto-neutron star and the structure near the surface</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>Poster • Unraveling the History of the Universe and Matter Evolution with Underground Physics 2024 • Sendai, Japan • March 2024</div>
+        </div>
+        <div class="result-item" data-year="2024">
+          <h3>原始中性子星の進化計算及び構造解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>口頭発表 • 新学術領域「地下から解き明かす宇宙の歴史と物質の進化」第10回超新星ニュートリノ研究会 • 岡山 • 2024年3月</div>
         </div>
         <div class="result-item" data-year="2023">
-          <h3>EOS Dependence in PNS Cooling</h3>
-          <div class="meta">Department Colloquium • 2023 • Waseda</div>
+          <h3>原始中性子星外層の後期熱的進化に関する詳細な解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>ポスター発表 • 新学術領域「地下から解き明かす宇宙の歴史と物質の進化」第9回超新星ニュートリノ研究会 • 福岡 • 2023年3月</div>
         </div>
-        <p style="text-align: center; color: #9ca3af; margin-top: 10px;">
-          <span class="lang-en">More talks will be updated.</span>
-          <span class="lang-zh">更多演讲将持续更新。</span>
-          <span class="lang-ja">さらに発表を更新予定です。</span>
-        </p>
+        <div class="result-item" data-year="2023">
+          <h3>原始中性子星外層の後期熱的進化に関する解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>ポスター発表 • 日本天文学会2023年春季年会 • 東京 • 2023年3月</div>
+        </div>
+        <div class="result-item" data-year="2023">
+          <h3>原始中性⼦星外層の後期熱的進化に関する詳細な解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>ポスター発表 • 2023年度 第53回 天文・天体物理若手夏の学校 • 東京 • 2023年3月</div>
+        </div>
+        <div class="result-item" data-year="2023">
+          <h3>原始中性子星外層における各ニュートリノ反応の影響の解析</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>ポスター発表 • 日本天文学会2023年秋季年会 • 名古屋 • 2023年9月</div>
+        </div>
       </div>
     </div>
   </div>

@@ -6,6 +6,13 @@
   <title>Publications - Jinkun Liao</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style>
+    .badge { display:inline-block; padding:2px 6px; border-radius:4px; font-size:12px; font-weight:600; color:#fff; margin-right:6px; }
+    .badge-ref { background:linear-gradient(90deg,#c05621,#dd6b20); }
+    .badge-unref { background:linear-gradient(90deg,#718096,#a0aec0); }
+    .legend { font-size:13px; color:#6b7280; display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+    .legend span { display:flex; align-items:center; gap:6px; }
+  </style>
 </head>
 <body>
   <header>
@@ -103,6 +110,11 @@
           <span class="lang-ja">発表論文</span>
         </h1>
       </div>
+      <div class="legend">
+        <span><span class="badge badge-ref">refereed</span><span class="lang-en">Peer-reviewed</span></span>
+        <span><span class="badge badge-unref">unrefereed</span><span class="lang-en">Not peer-reviewed</span></span>
+        <span class="lang-en">Recent covers current year and previous year.</span>
+      </div>
       
       <!-- Filter Bar -->
       <div class="filter-bar">
@@ -123,26 +135,19 @@
       <!-- Results -->
       <div class="results-card" id="pub-results">
         <!-- Example items with data-year -->
+        <div class="result-item" data-year="2026">
+          <h3>2026 Publications</h3>
+          <div class="meta"><span class="badge badge-unref">unrefereed</span>No publications available yet.</div>
+          <div class="links"><a href="javascript:void(0)">TBD</a></div>
+        </div>
+        <!--
         <div class="result-item" data-year="2025">
           <h3>Neutrino Transport in Proto-Neutron Star Cooling</h3>
           <div class="meta">J. Liao, et al. • Astrophysical Journal • 2025</div>
           <div class="links"><a href="#">PDF</a><a href="#">DOI</a></div>
         </div>
-        <div class="result-item" data-year="2024">
-          <h3>Equation of State Effects on PNS Thermal Evolution</h3>
-          <div class="meta">J. Liao • MNRAS • 2024</div>
-          <div class="links"><a href="#">PDF</a><a href="#">DOI</a></div>
-        </div>
-        <div class="result-item" data-year="2023">
-          <h3>Neutrino Opacity and Cooling Timescales</h3>
-          <div class="meta">J. Liao • Phys. Rev. D • 2023</div>
-          <div class="links"><a href="#">PDF</a><a href="#">DOI</a></div>
-        </div>
-        <p style="text-align: center; color: #9ca3af; margin-top: 10px;">
-          <span class="lang-en">More publications will be updated.</span>
-          <span class="lang-zh">更多论文将持续更新。</span>
-          <span class="lang-ja">さらに論文を更新予定です。</span>
-        </p>
+        -->
+        
       </div>
     </div>
   </div>
