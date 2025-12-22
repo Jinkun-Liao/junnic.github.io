@@ -331,7 +331,9 @@
             if(lang==='js-run'){
               // Provide RUN_CTX for DOM interactions
               window.RUN_CTX = { block, out };
-              const result = Function(`"use strict";\n${code}`)();
+              const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+              const runner = new AsyncFunction(`"use strict";\n${code}`);
+              const result = await runner();
               out.textContent = formatResult(result);
             } else if(lang==='py-run'){
               await ensurePyodide();
@@ -345,6 +347,12 @@
 
     function formatResult(r){
       if(r===undefined) return '完成，无返回值';
+      if(r && typeof r.toJs === 'function'){
+        try { return JSON.stringify(r.toJs({deep:true}), null, 2); } catch(e) { /* fallthrough */ }
+      }
+      if(r && typeof r.toString === 'function' && r.constructor && r.constructor.name && r.constructor.name.includes('PyProxy')){
+        try { return r.toString(); } catch(e) { /* fallthrough */ }
+      }
       if(typeof r === 'object'){
         try { return JSON.stringify(r, null, 2); } catch { return String(r); }
       }
