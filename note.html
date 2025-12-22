@@ -256,48 +256,63 @@
       articleEl.innerHTML = '加载中...';
 
       fetch(`notes/${slug}.md`).then(r=>r.text()).then(md => {
-        const renderer = new marked.Renderer();
-        const headingIds = [];
-        renderer.heading = function(token){
-          const text = token.text || String(token);
-          const level = token.depth || 1;
-          const id = text.toLowerCase().replace(/[^a-z0-9]+/g,'-');
-          headingIds.push({text, level, id});
-          return `<h${level} id="${id}">${text}</h${level}>`;
-        };
-        renderer.code = function(token){
-          const code = token.text || String(token);
-          const lang = (token.lang || '').trim();
-          if(lang==='js-run' || lang==='py-run'){
-            const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-            const runLabel = lang==='js-run'? '运行JS' : '运行Python';
-            return `
+        try {
+          const renderer = new marked.Renderer();
+          const headingIds = [];
+          renderer.heading = function(token){
+            try {
+              const text = (typeof token === 'object' && token.text) ? token.text : String(token);
+              const level = (typeof token === 'object' && token.depth) ? token.depth : 1;
+              const id = text.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+              headingIds.push({text, level, id});
+              return `<h${level} id="${id}">${text}</h${level}>`;
+            } catch(e) {
+              console.error('heading render error:', e, token);
+              return '';
+            }
+          };
+          renderer.code = function(token){
+            try {
+              const code = (typeof token === 'object' && token.text) ? token.text : String(token);
+              const lang = (typeof token === 'object' && token.lang) ? (token.lang || '').trim() : '';
+              if(lang==='js-run' || lang==='py-run'){
+                const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                const runLabel = lang==='js-run'? '运行JS' : '运行Python';
+                return `
             <div class="run-block" data-lang="${lang}">
               <div class="run-toolbar"><span>${runLabel}</span><button class="btn run-btn">运行</button></div>
               <pre class="line-numbers"><code class="language-${lang==='js-run'?'javascript':'python'}">${safe}</code></pre>
               <div class="run-output"></div>
             </div>`;
-          }
-          const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
-          return `<pre class="line-numbers"><code class="language-${lang}">${safe}</code></pre>`;
-        };
-        const html = marked.parse(md, { renderer });
-        articleEl.innerHTML = html;
-        // Build TOC
-        tocEl.innerHTML = headingIds.map(h=>`<a href="#${h.id}" style="margin-left:${(h.level-1)*10}px">${h.text}</a>`).join('');
-        // Prism highlight
-        Prism.highlightAllUnder(articleEl);
-        // KaTeX auto-render
-        try {
-          if (window.renderMathInElement) {
-            renderMathInElement(articleEl, { delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}
-            ]});
-          }
-        } catch (e) { console.warn('KaTeX render failed', e); }
-        // Bind run buttons
-        bindRunBlocks(articleEl);
+              }
+              const safe = code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+              return `<pre class="line-numbers"><code class="language-${lang}">${safe}</code></pre>`;
+            } catch(e) {
+              console.error('code render error:', e, token);
+              return '';
+            }
+          };
+          const html = marked.parse(md, { renderer });
+          articleEl.innerHTML = html;
+          // Build TOC
+          tocEl.innerHTML = headingIds.map(h=>`<a href="#${h.id}" style="margin-left:${(h.level-1)*10}px">${h.text}</a>`).join('');
+          // Prism highlight
+          Prism.highlightAllUnder(articleEl);
+          // KaTeX auto-render
+          try {
+            if (window.renderMathInElement) {
+              renderMathInElement(articleEl, { delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+              ]});
+            }
+          } catch (e) { console.warn('KaTeX render failed', e); }
+          // Bind run buttons
+          bindRunBlocks(articleEl);
+        } catch(e) {
+          articleEl.textContent = '加载失败：' + e;
+          console.error('Markdown parse error:', e);
+        }
       }).catch(err => {
         articleEl.textContent = '加载失败：' + err;
       });
