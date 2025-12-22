@@ -326,7 +326,7 @@
         const codeEl = block.querySelector('code');
         const code = codeEl.textContent;
         btn.onclick = async () => {
-          out.textContent = '';
+          out.innerHTML = '';
           try{
             if(lang==='js-run'){
               // Provide RUN_CTX for DOM interactions
@@ -334,7 +334,10 @@
               const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
               const runner = new AsyncFunction(`"use strict";\n${code}`);
               const result = await runner();
-              out.textContent = formatResult(result);
+              const hasDom = out.childElementCount > 0 || out.childNodes.length > 0;
+              if(!hasDom) {
+                out.textContent = formatResult(result);
+              }
             } else if(lang==='py-run'){
               await ensurePyodide();
               const pyResult = await pyodide.runPythonAsync(code);
