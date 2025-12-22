@@ -332,7 +332,7 @@
               // Provide RUN_CTX for DOM interactions
               window.RUN_CTX = { block, out };
               const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-              const runner = new AsyncFunction(`"use strict";\n${code}`);
+              const runner = new AsyncFunction(`"use strict";\n${autoReturn(code)}`);
               const result = await runner();
               const hasDom = out.childElementCount > 0 || out.childNodes.length > 0;
               if(!hasDom) {
@@ -360,6 +360,23 @@
         try { return JSON.stringify(r, null, 2); } catch { return String(r); }
       }
       return String(r);
+    }
+
+    // Heuristic: auto-return the last expression to surface results without explicit 'return'
+    function autoReturn(src){
+      const lines = src.split('\n');
+      let i = lines.length - 1;
+      while(i >= 0 && lines[i].trim() === '') i--;
+      if(i < 0) return src; // empty
+      const last = lines[i];
+      const t = last.trim();
+      const starters = ['return', 'const ', 'let ', 'var ', 'function', 'class', 'for ', 'while ', 'if ', 'switch ', 'try ', 'catch', 'async ', '{', '}'];
+      const startsWithStarter = starters.some(s => t.startsWith(s));
+      if(!startsWithStarter){
+        const noSemi = t.replace(/;\s*$/, '');
+        lines[i] = last.replace(t, 'return ' + noSemi);
+      }
+      return lines.join('\n');
     }
 
     async function ensurePyodide(){

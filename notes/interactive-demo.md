@@ -24,23 +24,28 @@ container.append(label, slider);
 ## Plotly 图表（JS）
 
 ```js-run
-// 加载 Plotly 并绘制简单折线图
+// 加载中提示 + 绘制图表
+RUN_CTX.out.textContent = 'Loading Plotly…';
 async function ensurePlotly(){
   if(!window.Plotly){
     await new Promise(resolve => {
       const s = document.createElement('script');
       s.src = 'https://cdn.plot.ly/plotly-2.27.0.min.js';
-      s.onload = resolve; document.body.appendChild(s);
+      s.onload = resolve;
+      s.onerror = resolve; // 宽容处理，避免卡住
+      document.body.appendChild(s);
     });
   }
 }
 await ensurePlotly();
+RUN_CTX.out.textContent = 'Rendering chart…';
 const el = document.createElement('div');
 RUN_CTX.out.innerHTML = '';
 RUN_CTX.out.appendChild(el);
 const x = [1e9, 5e8, 1e8];
 const y = x.map(T => 1e40 * Math.pow(T/1e9, 6));
-Plotly.newPlot(el, [{x, y, mode:'lines+markers', name:'Lnu'}], {title:'Neutrino Cooling Luminosity'});
+await Plotly.newPlot(el, [{x, y, mode:'lines+markers', name:'Lnu'}], {title:'Neutrino Cooling Luminosity', margin:{t:30}});
+'Plotly chart ready';
 ```
 
 ## 可折叠练习
