@@ -113,8 +113,11 @@
   <div class="notes-container" id="notes-container">
     <aside class="notes-list">
       <div class="notes-list-header">
-        <span style="font-weight:700;">Notes</span>
-        <button class="btn" id="refresh-btn">刷新</button>
+        <div class="panel-title">
+          <span class="fa fa-sticky-note-o" aria-hidden="true"></span>
+          <span style="font-weight:700;">Notes</span>
+        </div>
+        <button class="btn" id="refresh-btn"><span class="fa fa-refresh" aria-hidden="true"></span><span>刷新</span></button>
       </div>
       <div style="padding: 12px 16px;">
         <input id="search-input" class="notes-search" placeholder="搜索标题/标签..." />
@@ -122,19 +125,23 @@
       <div class="tag-bar" id="tag-bar"></div>
       <div id="notes-cards"></div>
     </aside>
+    <aside class="toc-panel hidden" id="toc-panel">
+      <div class="toc-panel-header"><span class="fa fa-list-ul" aria-hidden="true"></span><span>目录</span></div>
+      <div id="toc-tree" class="toc-tree"></div>
+    </aside>
     <main class="note-view" id="note-view">
       <div class="note-view-header">
         <div>
-          <div class="note-title" id="note-title-display">选择左侧一条笔记</div>
+          <div class="note-title" id="note-title-display">随记</div>
           <div class="note-meta" id="note-meta-display"></div>
         </div>
         <div style="display:flex; gap:8px;">
-          <button class="btn" id="back-btn" style="display:none;">返回列表</button>
-          <button class="btn" id="copy-link-btn">复制链接</button>
+          <button class="btn" id="back-btn" style="display:none;"><span class="fa fa-chevron-left" aria-hidden="true"></span><span>返回列表</span></button>
+          <button class="btn" id="copy-link-btn"><span class="fa fa-link" aria-hidden="true"></span><span>复制链接</span></button>
         </div>
       </div>
       <div class="note-content">
-        <div class="toc" id="toc"></div>
+        <div id="note-placeholder" class="note-placeholder"></div>
         <article id="note-article"></article>
       </div>
     </main>
@@ -166,12 +173,18 @@
     const PAGE_SIZE = 10;
     let PYODIDE_READY = false;
     let pyodide = null;
+    let LIST_SORT_KEY = 'date';
+    let LIST_SORT_DIR = 'desc';
+    const notesListEl = document.querySelector('.notes-list');
+    const tocPanelEl = document.getElementById('toc-panel');
+    const tocTreeEl = document.getElementById('toc-tree');
 
     async function loadIndex(){
       const res = await fetch('notes/index.json');
       NOTES_INDEX = await res.json();
       renderTagBar();
       renderCards();
+      return NOTES_INDEX;
     }
 
     function renderTagBar(){
@@ -192,15 +205,23 @@
       });
     }
 
+    function getFilteredNotes() {
+      const s = SEARCH_TEXT.toLowerCase();
+      return NOTES_INDEX.filter(n => {
+        const matchTag = ACTIVE_TAG ? (n.tags || []).includes(ACTIVE_TAG) : true;
+        const matchText = !s || (
+          (n.title || '').toLowerCase().includes(s) ||
+          (n.tags || []).some(t => (t || '').toLowerCase().includes(s)) ||
+          (n.summary || '').toLowerCase().includes(s)
+        );
+        return matchTag && matchText;
+      });
+    }
+
     function renderCards(){
       const wrap = document.getElementById('notes-cards');
       wrap.innerHTML = '';
-      const filtered = NOTES_INDEX.filter(n => {
-        const matchTag = ACTIVE_TAG? (n.tags||[]).includes(ACTIVE_TAG) : true;
-        const s = SEARCH_TEXT.toLowerCase();
-        const matchText = !s || (n.title.toLowerCase().includes(s) || (n.tags||[]).some(t=>t.toLowerCase().includes(s)) || (n.summary||'').toLowerCase().includes(s));
-        return matchTag && matchText;
-      });
+      const filtered = getFilteredNotes();
       // pagination
       const total = filtered.length;
       const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -211,7 +232,13 @@
         const card = document.createElement('div');
         card.className = 'note-card';
         card.onclick = () => openNote(n.slug);
-        card.innerHTML = `<div class="note-card-title">${n.title}</div><div class="note-card-meta">${n.date} · ${(n.tags||[]).join(', ')}</div>`;
+        card.innerHTML = `
+          <div class="note-card-title">
+            <span class="fa fa-file-text-o" aria-hidden="true"></span>
+            <span class="note-card-title-text">${n.title}</span>
+          </div>
+          <div class="note-card-meta">${n.date} · ${(n.tags||[]).join(', ')}</div>
+        `;
         wrap.appendChild(card);
       });
       if(filtered.length===0){
@@ -238,21 +265,303 @@
       next.onclick = () => { ACTIVE_PAGE = Math.min(Math.ceil(filtered.length / PAGE_SIZE), ACTIVE_PAGE+1); renderCards(); };
       pag.append(prev, info, next);
       wrap.appendChild(pag);
+
+      renderPlaceholderList(filtered);
+    }
+
+    function renderPlaceholderList(source){
+      const container = document.getElementById('note-placeholder');
+      if (!container) return;
+
+      const notes = Array.isArray(source) ? source.slice() : getFilteredNotes().slice();
+      container.innerHTML = '';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'note-placeholder-wrap';
+
+      const controls = document.createElement('div');
+      controls.className = 'placeholder-controls';
+
+      const title = document.createElement('div');
+      title.className = 'placeholder-title';
+      title.textContent = '笔记概览';
+
+      const sortGroup = document.createElement('div');
+      sortGroup.className = 'placeholder-sort';
+
+      const sorts = [
+        { key: 'date', label: '按时间' },
+        { key: 'title', label: '按名称' }
+      ];
+
+      sorts.forEach(sort => {
+        const btn = document.createElement('button');
+        btn.className = LIST_SORT_KEY === sort.key ? 'active' : '';
+        let text = sort.label;
+        if (LIST_SORT_KEY === sort.key) {
+          text += LIST_SORT_DIR === 'asc' ? ' ↑' : ' ↓';
+        }
+        btn.textContent = text;
+        btn.addEventListener('click', () => {
+          if (LIST_SORT_KEY === sort.key) {
+            LIST_SORT_DIR = LIST_SORT_DIR === 'asc' ? 'desc' : 'asc';
+          } else {
+            LIST_SORT_KEY = sort.key;
+            LIST_SORT_DIR = sort.key === 'date' ? 'desc' : 'asc';
+          }
+          renderPlaceholderList();
+        });
+        sortGroup.appendChild(btn);
+      });
+
+      controls.append(title, sortGroup);
+      wrapper.appendChild(controls);
+
+      if (notes.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'placeholder-empty';
+        empty.textContent = '没有符合条件的笔记';
+        wrapper.appendChild(empty);
+        container.appendChild(wrapper);
+        return;
+      }
+
+      const compareTitles = (aTitle, bTitle) => {
+        try {
+          return (aTitle || '').localeCompare(bTitle || '', 'zh-Hans', { sensitivity: 'base', numeric: true });
+        } catch (err) {
+          return (aTitle || '').localeCompare(bTitle || '');
+        }
+      };
+
+      notes.sort((a, b) => {
+        if (LIST_SORT_KEY === 'title') {
+          const compare = compareTitles(a.title, b.title);
+          if (compare !== 0) {
+            return LIST_SORT_DIR === 'asc' ? compare : -compare;
+          }
+          const timeA = Date.parse(a.date || '') || 0;
+          const timeB = Date.parse(b.date || '') || 0;
+          return LIST_SORT_DIR === 'asc' ? timeA - timeB : timeB - timeA;
+        }
+
+        const timeA = Date.parse(a.date || '') || 0;
+        const timeB = Date.parse(b.date || '') || 0;
+        return LIST_SORT_DIR === 'asc' ? timeA - timeB : timeB - timeA;
+      });
+
+      const list = document.createElement('ul');
+      list.className = 'placeholder-list';
+
+      notes.forEach(note => {
+        const item = document.createElement('li');
+        item.className = 'placeholder-item';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'placeholder-item-title';
+        const titleIcon = document.createElement('span');
+        titleIcon.className = 'fa fa-file-text-o placeholder-item-icon';
+        titleIcon.setAttribute('aria-hidden', 'true');
+        const titleText = document.createElement('span');
+        titleText.textContent = note.title || note.slug;
+        titleEl.append(titleIcon, titleText);
+        item.appendChild(titleEl);
+
+        const metaParts = [];
+        if (note.date) metaParts.push(note.date);
+        if (note.tags && note.tags.length) metaParts.push(note.tags.join(', '));
+        if (metaParts.length) {
+          const metaEl = document.createElement('div');
+          metaEl.className = 'placeholder-item-meta';
+          metaEl.textContent = metaParts.join(' · ');
+          item.appendChild(metaEl);
+        }
+
+        item.addEventListener('click', () => openNote(note.slug));
+        list.appendChild(item);
+      });
+
+      wrapper.appendChild(list);
+      container.appendChild(wrapper);
+    }
+
+    function buildHeadingTree(headings) {
+      const root = { level: 0, children: [] };
+      const stack = [root];
+
+      headings.forEach(h => {
+        const node = { ...h, children: [] };
+        while (stack.length > 1 && node.level <= stack[stack.length - 1].level) {
+          stack.pop();
+        }
+        stack[stack.length - 1].children.push(node);
+        stack.push(node);
+      });
+
+      return root.children;
+    }
+
+    function createTocNode(node) {
+      const container = document.createElement('div');
+      container.className = `toc-node level-${node.level || 1}`;
+
+      const header = document.createElement('div');
+      header.className = 'toc-node-header';
+
+      let toggleBtn = null;
+      if (node.children && node.children.length) {
+        toggleBtn = document.createElement('button');
+        toggleBtn.className = 'toc-toggle';
+        toggleBtn.type = 'button';
+        toggleBtn.innerHTML = '▾';
+        toggleBtn.setAttribute('aria-label', '折叠/展开小节');
+        toggleBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          container.classList.toggle('collapsed');
+        });
+        header.appendChild(toggleBtn);
+      } else {
+        const spacer = document.createElement('span');
+        spacer.style.display = 'inline-block';
+        spacer.style.width = '22px';
+        spacer.style.height = '22px';
+        header.appendChild(spacer);
+      }
+
+      const link = document.createElement('a');
+      link.className = 'toc-link';
+      link.href = `#${node.id}`;
+      const icon = document.createElement('span');
+      icon.className = `fa ${
+        (node.level === 1) ? 'fa-bookmark' :
+        (node.level === 2) ? 'fa-book' :
+        (node.level === 3) ? 'fa-circle-o' :
+        'fa-angle-right'
+      }`;
+      icon.setAttribute('aria-hidden', 'true');
+      const text = document.createElement('span');
+      text.className = 'toc-link-text';
+      text.textContent = node.text;
+      link.append(icon, text);
+      header.appendChild(link);
+
+      container.appendChild(header);
+
+      if (node.children && node.children.length) {
+        const childrenWrap = document.createElement('div');
+        childrenWrap.className = 'toc-children';
+        node.children.forEach(child => {
+          childrenWrap.appendChild(createTocNode(child));
+        });
+        container.appendChild(childrenWrap);
+      }
+
+      return container;
+    }
+
+    function renderTocTree(headings, options = {}) {
+      const { showEmptyMessage = true } = options;
+      if (!tocTreeEl) return;
+      tocTreeEl.innerHTML = '';
+
+      if (!headings || !headings.length) {
+        if (showEmptyMessage) {
+          const empty = document.createElement('div');
+          empty.className = 'toc-empty';
+          empty.textContent = '本笔记暂无目录';
+          tocTreeEl.appendChild(empty);
+        }
+        return;
+      }
+
+      const tree = buildHeadingTree(headings);
+      const fragment = document.createDocumentFragment();
+      tree.forEach(node => {
+        fragment.appendChild(createTocNode(node));
+      });
+      tocTreeEl.appendChild(fragment);
+    }
+
+    function showPlaceholderView(){
+      const placeholder = document.getElementById('note-placeholder');
+      if (placeholder) {
+        placeholder.classList.add('active');
+      }
+      const article = document.getElementById('note-article');
+      if (article) {
+        article.style.display = 'none';
+      }
+      if (notesListEl) {
+        notesListEl.classList.remove('hidden');
+      }
+      if (tocPanelEl) {
+        tocPanelEl.classList.add('hidden');
+      }
+      renderTocTree([], { showEmptyMessage: false });
+      // Reset note theme while browsing list
+      applyNoteTheme(null);
+    }
+
+    function hashStringToInt(str) {
+      // Simple deterministic hash for stable “random” per note
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash);
+    }
+
+    function applyNoteTheme(slug) {
+      const container = document.getElementById('notes-container');
+      if (!container) return;
+      if (!slug) {
+        container.removeAttribute('data-note-theme');
+        return;
+      }
+
+      // 1/3 notes use warm accents; two warm variants for variety
+      const h = hashStringToInt(String(slug));
+      const useWarm = (h % 3) === 0;
+      if (!useWarm) {
+        container.removeAttribute('data-note-theme');
+        return;
+      }
+      container.setAttribute('data-note-theme', (h % 2) === 0 ? 'warm' : 'warm2');
+    }
+
+    function showArticleView(){
+      const placeholder = document.getElementById('note-placeholder');
+      if (placeholder) {
+        placeholder.classList.remove('active');
+      }
+      const article = document.getElementById('note-article');
+      if (article) {
+        article.style.display = 'block';
+      }
+      if (notesListEl) {
+        notesListEl.classList.add('hidden');
+      }
+      if (tocPanelEl) {
+        tocPanelEl.classList.remove('hidden');
+      }
     }
 
     function openNote(slug){
       const meta = NOTES_INDEX.find(n=>n.slug===slug);
       const titleEl = document.getElementById('note-title-display');
       const metaEl = document.getElementById('note-meta-display');
-      const tocEl = document.getElementById('toc');
       const articleEl = document.getElementById('note-article');
 
       history.replaceState(null, '', `note.html?note=${encodeURIComponent(slug)}`);
       document.getElementById('back-btn').style.display = 'inline-block';
 
+      showArticleView();
+      applyNoteTheme(slug);
+      renderTocTree([], { showEmptyMessage: false });
+
       titleEl.textContent = meta? meta.title : slug;
       metaEl.textContent = meta? `${meta.date} · ${(meta.tags||[]).join(', ')}` : '';
-      tocEl.innerHTML = '';
       articleEl.innerHTML = '加载中...';
 
       fetch(`notes/${slug}.md`).then(r=>r.text()).then(md => {
@@ -294,8 +603,10 @@
           };
           const html = marked.parse(md, { renderer });
           articleEl.innerHTML = html;
+          // Wrap all tables with scroll container and zoom functionality
+          wrapTablesWithScrollContainer(articleEl);
           // Build TOC
-          tocEl.innerHTML = headingIds.map(h=>`<a href="#${h.id}" style="margin-left:${(h.level-1)*10}px">${h.text}</a>`).join('');
+          renderTocTree(headingIds);
           // Prism highlight
           Prism.highlightAllUnder(articleEl);
           // KaTeX auto-render
@@ -312,9 +623,11 @@
         } catch(e) {
           articleEl.textContent = '加载失败：' + e;
           console.error('Markdown parse error:', e);
+          renderTocTree([], { showEmptyMessage: false });
         }
       }).catch(err => {
         articleEl.textContent = '加载失败：' + err;
+        renderTocTree([], { showEmptyMessage: false });
       });
     }
 
@@ -393,16 +706,596 @@
     function backToList(){
       history.replaceState(null, '', 'note.html');
       document.getElementById('back-btn').style.display = 'none';
-      document.getElementById('note-title-display').textContent = '选择左侧一条笔记';
+      document.getElementById('note-title-display').textContent = '随记';
       document.getElementById('note-meta-display').textContent = '';
-      document.getElementById('toc').innerHTML = '';
-      document.getElementById('note-article').innerHTML = '';
+      renderTocTree([], { showEmptyMessage: false });
+      showPlaceholderView();
+      const article = document.getElementById('note-article');
+      article.innerHTML = '';
+      renderPlaceholderList();
     }
 
     function copyLink(){
       navigator.clipboard.writeText(location.href).then(()=>{
         alert('链接已复制');
       });
+    }
+
+    function wrapTablesWithScrollContainer(root){
+      root.querySelectorAll('table').forEach((table, index) => {
+        // Create wrapper for controls and resizable table
+        const wrapper = document.createElement('div');
+        wrapper.className = 'table-wrapper';
+        
+        const controls = document.createElement('div');
+        controls.className = 'table-controls';
+        controls.innerHTML = `
+          <span style="color: #94a3b8; font-size: 12px;">💡 拖动列头边界调整列宽，字体自动适应</span>
+          <button class="table-zoom-btn" data-table-id="${index}">🔍 放大查看</button>
+        `;
+        
+        wrapper.appendChild(controls);
+        
+        // Clone table and make it resizable
+        const tableClone = table.cloneNode(true);
+        wrapper.appendChild(tableClone);
+        
+        table.parentNode.replaceChild(wrapper, table);
+        
+        // Set reasonable initial column widths
+        setInitialColumnWidths(tableClone);
+        
+        // Initialize column resizing
+        initializeColumnResizing(tableClone);
+        
+        // Zoom functionality
+        controls.querySelector('.table-zoom-btn').addEventListener('click', (e) => {
+          const modalTable = tableClone.cloneNode(true);
+          setInitialColumnWidths(modalTable);
+          initializeColumnResizing(modalTable);
+          showTableModal(modalTable);
+        });
+      });
+    }
+
+    function setInitialColumnWidths(table) {
+      const ths = table.querySelectorAll('thead th');
+      let totalWidth = table.offsetWidth || 800; // fallback width
+      let colCount = ths.length;
+      
+      if (colCount === 0) return;
+      
+      ths.forEach(th => {
+        th.style.width = (totalWidth / colCount) + 'px';
+        th.style.minWidth = '80px'; // minimum width to prevent too small columns
+      });
+    }
+
+    function initializeColumnResizing(table, getScale = () => 1) {
+      const ths = table.querySelectorAll('thead th');
+      
+      ths.forEach((th, index) => {
+        th.style.position = 'relative';
+        
+        // Add resize handle to all columns (including last one for flexibility)
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'column-resize-handle';
+        resizeHandle.style.position = 'absolute';
+        resizeHandle.style.right = '0';
+        resizeHandle.style.top = '0';
+        resizeHandle.style.width = '6px';
+        resizeHandle.style.height = '100%';
+        resizeHandle.style.cursor = 'col-resize';
+        resizeHandle.style.userSelect = 'none';
+        resizeHandle.style.background = 'linear-gradient(to right, transparent 30%, #64ffda 50%, transparent 70%)';
+        resizeHandle.style.opacity = '0';
+        resizeHandle.style.transition = 'opacity 0.2s ease';
+        
+        th.appendChild(resizeHandle);
+        
+        // Show handle on hover
+        th.addEventListener('mouseenter', () => {
+          resizeHandle.style.opacity = '1';
+        });
+        
+        th.addEventListener('mouseleave', () => {
+          if (!resizeHandle.isResizing) {
+            resizeHandle.style.opacity = '0';
+          }
+        });
+        
+        // Resize functionality - proportional resizing
+        resizeHandle.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          e.stopPropagation(); // Prevent drag/pan interference
+          resizeHandle.isResizing = true;
+          
+          const scale = getScale();
+          const startX = e.clientX;
+          const startWidth = th.offsetWidth;
+          const nextTh = index < ths.length - 1 ? ths[index + 1] : null;
+          const nextStartWidth = nextTh ? nextTh.offsetWidth : null;
+          
+          const onMouseMove = (moveEvent) => {
+            moveEvent.preventDefault();
+            moveEvent.stopPropagation();
+            
+            // Adjust deltaX by scale factor to ensure 1:1 mouse movement relative to visual change
+            const deltaX = (moveEvent.clientX - startX) / scale;
+            const minWidth = 60; // Minimum column width
+            
+            let newWidth;
+            
+            if (deltaX > 0) {
+              // Expanding current column
+              newWidth = startWidth + deltaX;
+              th.style.width = newWidth + 'px';
+              
+              if (nextTh && nextStartWidth - deltaX >= minWidth) {
+                nextTh.style.width = (nextStartWidth - deltaX) + 'px';
+              }
+            } else {
+              // Shrinking current column
+              newWidth = Math.max(minWidth, startWidth + deltaX);
+              th.style.width = newWidth + 'px';
+              
+              if (nextTh) {
+                nextTh.style.width = (nextStartWidth - (newWidth - startWidth)) + 'px';
+              }
+            }
+            
+            // Dynamic font size adjustment based on column width
+            // Base size 12px, adjust +/- based on width relative to 100px baseline
+            // Clamp between 10px and 16px
+            const fontSize = Math.max(10, Math.min(16, 12 + (newWidth - 100) / 20));
+            th.style.fontSize = fontSize + 'px';
+            
+            // Update all cells in this column to match the font size
+            const tbodyRows = table.querySelectorAll('tbody tr');
+            tbodyRows.forEach(row => {
+              const cell = row.cells[index];
+              if (cell) {
+                cell.style.fontSize = fontSize + 'px';
+              }
+              if (row.dataset.manualHeight === 'true') {
+                const contentHeight = Array.from(row.cells).reduce((max, cellEl) => Math.max(max, cellEl.scrollHeight), 0);
+                if (contentHeight > row.offsetHeight) {
+                  row.style.height = contentHeight + 'px';
+                }
+              } else {
+                row.style.height = '';
+              }
+            });
+          };
+          
+          const onMouseUp = () => {
+            resizeHandle.isResizing = false;
+            resizeHandle.style.opacity = '0';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+          };
+          
+          resizeHandle.style.opacity = '1';
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('mouseup', onMouseUp);
+        });
+      });
+    }
+
+    function initializeRowResizing(table, getScale = () => 1) {
+      const rows = table.querySelectorAll('tbody tr');
+      
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll('td');
+        
+        cells.forEach((cell) => {
+          cell.style.position = 'relative';
+          
+          const resizeHandle = document.createElement('div');
+          resizeHandle.className = 'row-resize-handle';
+          resizeHandle.style.position = 'absolute';
+          resizeHandle.style.left = '0';
+          resizeHandle.style.bottom = '0';
+          resizeHandle.style.width = '100%';
+          resizeHandle.style.height = '6px';
+          resizeHandle.style.cursor = 'row-resize';
+          resizeHandle.style.zIndex = '10';
+          resizeHandle.style.background = 'linear-gradient(to bottom, transparent 30%, #64ffda 50%, transparent 70%)';
+          resizeHandle.style.opacity = '0';
+          resizeHandle.style.transition = 'opacity 0.2s ease';
+          
+          cell.appendChild(resizeHandle);
+          
+          cell.addEventListener('mouseenter', () => {
+            resizeHandle.style.opacity = '1';
+          });
+          
+          cell.addEventListener('mouseleave', () => {
+            if (!resizeHandle.isResizing) {
+              resizeHandle.style.opacity = '0';
+            }
+          });
+          
+          resizeHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resizeHandle.isResizing = true;
+            row.dataset.manualHeight = 'true';
+            
+            const scale = getScale();
+            const startY = e.clientY;
+            const startHeight = row.offsetHeight;
+            
+            const onMouseMove = (moveEvent) => {
+              moveEvent.preventDefault();
+              moveEvent.stopPropagation();
+              
+              const deltaY = (moveEvent.clientY - startY) / scale;
+              const minHeight = 30;
+              const newHeight = Math.max(minHeight, startHeight + deltaY);
+              
+              row.style.height = newHeight + 'px';
+              
+              // Dynamic font size adjustment based on row height
+              const fontSize = Math.max(10, Math.min(16, 12 + (newHeight - 50) / 10));
+              row.style.fontSize = fontSize + 'px';
+            };
+            
+            const onMouseUp = () => {
+              resizeHandle.isResizing = false;
+              resizeHandle.style.opacity = '0';
+              document.removeEventListener('mousemove', onMouseMove);
+              document.removeEventListener('mouseup', onMouseUp);
+            };
+            
+            resizeHandle.style.opacity = '1';
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+          });
+
+          resizeHandle.addEventListener('dblclick', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resizeHandle.isResizing = false;
+            delete row.dataset.manualHeight;
+            row.style.height = '';
+            row.style.fontSize = '';
+          });
+        });
+      });
+    }
+
+    function enableTableDrag(container){
+      let isDown = false;
+      let startX, startY, scrollLeft, scrollTop;
+
+      container.addEventListener('mousedown', (e) => {
+        // Skip if clicking on resize handle
+        if (e.target.classList.contains('column-resize-handle')) return;
+        
+        isDown = true;
+        container.classList.add('dragging');
+        startX = e.pageX - container.offsetLeft;
+        startY = e.pageY - container.offsetTop;
+        scrollLeft = container.scrollLeft;
+        scrollTop = container.scrollTop;
+      });
+
+      container.addEventListener('mouseleave', () => {
+        isDown = false;
+        container.classList.remove('dragging');
+      });
+
+      container.addEventListener('mouseup', () => {
+        isDown = false;
+        container.classList.remove('dragging');
+      });
+
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const y = e.pageY - container.offsetTop;
+        const walkX = (x - startX);
+        const walkY = (y - startY);
+        container.scrollLeft = scrollLeft - walkX;
+        container.scrollTop = scrollTop - walkY;
+      });
+
+      // Touch support for mobile
+      let touchStartX, touchStartY, touchScrollLeft, touchScrollTop;
+      
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].pageX - container.offsetLeft;
+        touchStartY = e.touches[0].pageY - container.offsetTop;
+        touchScrollLeft = container.scrollLeft;
+        touchScrollTop = container.scrollTop;
+      });
+
+      container.addEventListener('touchmove', (e) => {
+        const touchX = e.touches[0].pageX - container.offsetLeft;
+        const touchY = e.touches[0].pageY - container.offsetTop;
+        const walkX = (touchX - touchStartX);
+        const walkY = (touchY - touchStartY);
+        container.scrollLeft = touchScrollLeft - walkX;
+        container.scrollTop = touchScrollTop - walkY;
+      });
+    }
+
+    function showTableModal(table){
+      const modal = document.createElement('div');
+      modal.className = 'table-modal active';
+      
+      const content = document.createElement('div');
+      content.className = 'table-modal-content';
+      
+      const header = document.createElement('div');
+      header.className = 'table-modal-header';
+      header.innerHTML = `
+        <div class="modal-header-left">
+          <span>表格预览（支持缩放拖动，字体自动调整）</span>
+        </div>
+        <button class="table-modal-close">&times;</button>
+      `;
+      
+      const body = document.createElement('div');
+      body.className = 'table-modal-body';
+      const tableClone = table.cloneNode(true);
+      body.appendChild(tableClone);
+      
+      // Zoom and pan functionality variables
+      let scale = 1;
+
+      // Initialize column resizing in modal
+      initializeColumnResizing(tableClone, () => scale);
+      initializeRowResizing(tableClone, () => scale);
+      
+      // Add zoom controls
+      const zoomControls = document.createElement('div');
+      zoomControls.className = 'zoom-controls';
+      zoomControls.innerHTML = `
+        <button class="zoom-btn zoom-out">−</button>
+        <div class="zoom-level">100%</div>
+        <button class="zoom-btn zoom-in">+</button>
+        <button class="zoom-btn zoom-reset">⟲</button>
+      `;
+
+      // Auto-hide zoom controls logic
+      let controlsTimeout;
+      const showControls = () => {
+        zoomControls.classList.add('visible');
+        clearTimeout(controlsTimeout);
+        controlsTimeout = setTimeout(() => {
+          zoomControls.classList.remove('visible');
+        }, 2000);
+      };
+
+      content.addEventListener('mousemove', showControls);
+      zoomControls.addEventListener('mouseenter', () => {
+        clearTimeout(controlsTimeout);
+        zoomControls.classList.add('visible');
+      });
+      zoomControls.addEventListener('mouseleave', showControls);
+      setTimeout(showControls, 100);
+      
+      content.appendChild(header);
+      content.appendChild(body);
+      content.appendChild(zoomControls);
+      modal.appendChild(content);
+      
+      document.body.appendChild(modal);
+      
+      // Zoom and pan functionality
+      let posX = 0;
+      let posY = 0;
+      let isDragging = false;
+      let startX, startY;
+      let lastTouchDistance = 0;
+      
+      const zoomLevelDisplay = zoomControls.querySelector('.zoom-level');
+      
+      function updateTransform() {
+        tableClone.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+        zoomLevelDisplay.textContent = Math.round(scale * 100) + '%';
+        body.classList.toggle('zoomed', scale > 1);
+      }
+      
+      function zoom(delta, centerX = body.offsetWidth / 2, centerY = body.offsetHeight / 2) {
+        const oldScale = scale;
+        scale = Math.max(0.5, Math.min(5, scale + delta));
+        
+        // Adjust position to zoom towards the center point
+        const scaleDiff = scale - oldScale;
+        posX -= (centerX - posX) * scaleDiff / oldScale;
+        posY -= (centerY - posY) * scaleDiff / oldScale;
+        
+        updateTransform();
+      }
+      
+      function resetZoom() {
+        scale = 1;
+        posX = 0;
+        posY = 0;
+        updateTransform();
+      }
+      
+      // Zoom buttons
+      zoomControls.querySelector('.zoom-in').addEventListener('click', () => zoom(0.2));
+      zoomControls.querySelector('.zoom-out').addEventListener('click', () => zoom(-0.2));
+      zoomControls.querySelector('.zoom-reset').addEventListener('click', resetZoom);
+      
+      // Mouse wheel and trackpad gestures
+      body.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        
+        // Check if Ctrl/Cmd key is pressed for zoom
+        if (e.ctrlKey || e.metaKey) {
+          // Zoom with Ctrl/Cmd + wheel
+          const rect = body.getBoundingClientRect();
+          const centerX = e.clientX - rect.left;
+          const centerY = e.clientY - rect.top;
+          zoom(e.deltaY > 0 ? -0.1 : 0.1, centerX, centerY);
+        } else {
+          // Pan with trackpad two-finger swipe or regular wheel
+          // Trackpad gestures provide both deltaX and deltaY
+          posX -= e.deltaX;
+          posY -= e.deltaY;
+          updateTransform();
+        }
+      }, { passive: false });
+      
+      // Mouse drag
+      body.addEventListener('mousedown', (e) => {
+        if (scale > 1) {
+          isDragging = true;
+          startX = e.clientX - posX;
+          startY = e.clientY - posY;
+          body.classList.add('dragging');
+        }
+      });
+      
+      body.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          posX = e.clientX - startX;
+          posY = e.clientY - startY;
+          updateTransform();
+        }
+      });
+      
+      body.addEventListener('mouseup', () => {
+        isDragging = false;
+        body.classList.remove('dragging');
+      });
+      
+      body.addEventListener('mouseleave', () => {
+        isDragging = false;
+        body.classList.remove('dragging');
+      });
+      
+      // Double click to zoom
+      let lastTap = 0;
+      body.addEventListener('dblclick', (e) => {
+        const rect = body.getBoundingClientRect();
+        const centerX = e.clientX - rect.left;
+        const centerY = e.clientY - rect.top;
+        if (scale === 1) {
+          zoom(1, centerX, centerY);
+        } else {
+          resetZoom();
+        }
+      });
+      
+      // Touch gestures
+      let initialDistance = 0;
+      let initialScale = 1;
+      
+      body.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          // Pinch to zoom
+          const touch1 = e.touches[0];
+          const touch2 = e.touches[1];
+          initialDistance = Math.hypot(
+            touch2.clientX - touch1.clientX,
+            touch2.clientY - touch1.clientY
+          );
+          initialScale = scale;
+        } else if (e.touches.length === 1 && scale > 1) {
+          // Pan
+          isDragging = true;
+          startX = e.touches[0].clientX - posX;
+          startY = e.touches[0].clientY - posY;
+        }
+      });
+      
+      body.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          const touch1 = e.touches[0];
+          const touch2 = e.touches[1];
+          const currentDistance = Math.hypot(
+            touch2.clientX - touch1.clientX,
+            touch2.clientY - touch1.clientY
+          );
+          
+          const newScale = (currentDistance / initialDistance) * initialScale;
+          scale = Math.max(0.5, Math.min(5, newScale));
+          updateTransform();
+        } else if (e.touches.length === 1 && isDragging) {
+          e.preventDefault();
+          posX = e.touches[0].clientX - startX;
+          posY = e.touches[0].clientY - startY;
+          updateTransform();
+        }
+      });
+      
+      body.addEventListener('touchend', (e) => {
+        if (e.touches.length === 0) {
+          isDragging = false;
+          initialDistance = 0;
+        }
+        
+        // Double tap to zoom
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 300 && tapLength > 0) {
+          if (scale === 1) {
+            zoom(1);
+          } else {
+            resetZoom();
+          }
+        }
+        lastTap = currentTime;
+      });
+      
+      // Close modal
+      const closeBtn = header.querySelector('.table-modal-close');
+      closeBtn.addEventListener('click', () => {
+        modal.remove();
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+      
+      // Close on Escape key
+      const closeOnEscape = (e) => {
+        if (e.key === 'Escape') {
+          modal.remove();
+          document.removeEventListener('keydown', closeOnEscape);
+          document.removeEventListener('keydown', handleArrowKeys);
+        }
+      };
+      document.addEventListener('keydown', closeOnEscape);
+      
+      // Arrow keys to pan
+      const handleArrowKeys = (e) => {
+        const step = 50; // pixels to move per key press
+        
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+          
+          switch(e.key) {
+            case 'ArrowUp':
+              posY += step;
+              break;
+            case 'ArrowDown':
+              posY -= step;
+              break;
+            case 'ArrowLeft':
+              posX += step;
+              break;
+            case 'ArrowRight':
+              posX -= step;
+              break;
+          }
+          
+          updateTransform();
+        }
+      };
+      document.addEventListener('keydown', handleArrowKeys);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -415,14 +1308,18 @@
       document.getElementById('back-btn').addEventListener('click', backToList);
       document.getElementById('copy-link-btn').addEventListener('click', copyLink);
 
-      loadIndex();
-
       const url = new URL(location.href);
       const slug = url.searchParams.get('note');
-      if(slug) {
-        // Wait index so meta is available
-        loadIndex().then(()=>openNote(slug));
-      }
+      showPlaceholderView();
+
+      const init = loadIndex();
+      init.then(() => {
+        if (slug) {
+          openNote(slug);
+        } else {
+          renderPlaceholderList();
+        }
+      });
     });
   </script>
 </body>

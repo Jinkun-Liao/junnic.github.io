@@ -30,5 +30,13 @@
     "tags": ["portal", "routing", "design"],
     "lang": "zh",
     "summary": "说明列表→详情门户模式与 `?note=slug` 路由机制。"
+  },
+  {
+    "title": "笔记——《SN2024cld: 揭示演化超巨星前驱体的复杂质量损失历史通向核心塌缩超新星》",
+    "slug": "staf2261_memo",
+    "date": "2026-01-03",
+    "tags": ["论文笔记", "超新星", "恒星演化", "质量损失"],
+    "lang": "zh",
+    "summary": "笔记摘要"
   }
 ]
