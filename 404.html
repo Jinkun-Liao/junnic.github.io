@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found | Jinkun Liao</title>
+  <meta name="robots" content="noindex">
+  <script>
+    // The old separate pages were merged into the homepage: forward them to the matching section.
+    (function () {
+      var m = location.pathname.match(/^(.*\/)([^\/]*)$/);
+      if (!m) return;
+      var moved = {
+        'research.html': '#research',
+        'publications.html': '#publications',
+        'presentations.html': '#presentations',
+        'contact.html': '#contact',
+        'cv.html': '',
+        'links.html': ''
+      };
+      var page = m[2].toLowerCase();
+      if (Object.prototype.hasOwnProperty.call(moved, page)) location.replace(m[1] + moved[page]);
+    })();
+  </script>
+  <style>
+    :root { --bg: #fbfaf8; --text: #1b1e23; --muted: #565d68; --accent: #b4441b; color-scheme: light; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #111317; --text: #e7e9ed; --muted: #a7aeb9; --accent: #ef8f5e; color-scheme: dark; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+    }
+    main { max-width: 440px; }
+    .code { margin: 0; color: var(--accent); font-weight: 700; letter-spacing: 0.12em; }
+    h1 { margin: 4px 0 10px; font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif; font-size: 34px; font-weight: 600; line-height: 1.15; }
+    p { color: var(--muted); }
+    a { color: var(--text); text-decoration-color: var(--accent); text-underline-offset: 4px; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="code">404</p>
+    <h1>Page not found</h1>
+    <p>The page you are looking for does not exist or has moved.</p>
+    <a id="home" href="./">← Back to the homepage</a>
+  </main>
+  <script>
+    // Works both as a project site (/repo.github.io/...) and as a user site (/...).
+    (function () {
+      var m = location.pathname.match(/^\/[^\/]+\.github\.io\//i);
+      document.getElementById('home').href = m ? m[0] : '/';
+    })();
+  </script>
+</body>
+</html>
