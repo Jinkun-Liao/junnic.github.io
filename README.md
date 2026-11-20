@@ -14,13 +14,13 @@
 | `assets/css/style.css` | 全站样式（颜色变量集中在文件开头，含浅色 / 深色模式） |
 | `assets/css/notes.css` | 仅笔记页使用的样式 |
 | `assets/js/site.js` | 语言切换、移动端菜单、导航高亮、BibTeX 展开与复制 |
-| `assets/img/` | 头像、论文配图、网站图标 |
+| `assets/img/` | 头像、网站图标 |
 
 ## 常见更新
 
 内容都在 `index.html` 中，按 `<!-- ============ … ============ -->` 区块注释查找。
 
-- **新增论文**：在 Publications 区块复制一个 `<article class="pub">`，修改标题、作者、链接与 BibTeX。BibTeX 区块的 `id` 必须唯一，并同步修改按钮的 `aria-controls` 和 `data-copy`。
+- **新增论文**：在 Publications 区块复制一个 `<article class="pub">`，修改标题、作者、链接、简短介绍（`pub-note`，中英日三份）与 BibTeX。BibTeX 区块的 `id` 必须唯一，并同步修改按钮的 `aria-controls` 和 `data-copy`。
 - **新增学会发表**：在 Presentations 列表顶部复制一个 `<li class="talk">`（新的在上）。类型写 `data-kind="oral"`（口头）或 `data-kind="poster"`（海报），标签文字会随语言自动切换。
 - **添加 CV / ORCID / researchmap / Google Scholar**：简介区 `hero-actions` 中有注释掉的示例，填入地址后取消注释即可（CV 可放在 `assets/cv.pdf`）。
 - **多语言**：需要切换的文字写成三份：
