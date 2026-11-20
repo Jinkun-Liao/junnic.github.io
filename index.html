@@ -1,206 +1,397 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jinkun Liao - Homepage</title>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jinkun Liao | Proto-Neutron Stars &amp; Supernova Neutrinos</title>
+  <meta name="description" content="Jinkun Liao is a Ph.D. student at Tokyo University of Science studying the cooling and neutrino emission of proto-neutron stars with general-relativistic neutrino-transport simulations.">
+  <meta name="author" content="Jinkun Liao">
+  <meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)">
+
+  <!-- Link previews. If the site address changes (e.g. the repository is renamed), update the two absolute URLs below. -->
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Jinkun Liao">
+  <meta property="og:description" content="Ph.D. student, Tokyo University of Science · Proto-neutron stars and supernova neutrinos">
+  <meta property="og:url" content="https://jinkun-liao.github.io/junnic.github.io/">
+  <meta property="og:image" content="https://jinkun-liao.github.io/junnic.github.io/assets/img/profile.jpg">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Pick the language before first paint: saved choice, then browser language, then English. -->
+  <script>
+    (function () {
+      var d = document.documentElement, l = null;
+      try { l = localStorage.getItem('preferredLanguage'); } catch (e) {}
+      if (!l) { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('ja') === 0 ? 'ja' : n.indexOf('zh') === 0 ? 'zh' : 'en'; }
+      if (l !== 'zh' && l !== 'ja') l = 'en';
+      d.setAttribute('data-lang', l);
+      d.setAttribute('lang', { en: 'en', zh: 'zh-CN', ja: 'ja' }[l]);
+      d.className += ' js';
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jinkun Liao",
+    "alternateName": ["廖锦琨", "リョウ キンコン"],
+    "jobTitle": "Ph.D. Student",
+    "affiliation": { "@type": "CollegeOrUniversity", "name": "Tokyo University of Science" },
+    "url": "https://jinkun-liao.github.io/junnic.github.io/",
+    "image": "https://jinkun-liao.github.io/junnic.github.io/assets/img/profile.jpg",
+    "sameAs": ["https://github.com/Jinkun-Liao"],
+    "knowsAbout": ["Proto-neutron star cooling", "Convection", "Nuclear equation of state", "Reactions in proto-neutron stars", "Supernova neutrinos"]
+  }
+  </script>
 </head>
 <body>
-  <!-- Background Slideshow -->
-  <div class="slideshow-container">
-    <div class="slide active" style="background-image: url('pic/background/River.jpg');"></div>
-    <div class="slide" style="background-image: url('pic/background/Cloud.jpeg');"></div>
-    <div class="overlay"></div>
-  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <header>
-    <div class="container">
-      <div class="header-left">
-        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
-        <h3 class="logo">
-          <span class="lang-en">Jinkun Liao</span>
-          <span class="lang-zh">廖锦琨</span>
-          <span class="lang-ja">リョウ　キンコン</span>
-        </h3>
+  <!-- Icons (Feather-style, MIT) -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 17.13V21"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></symbol>
+    <symbol id="i-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v5a2 2 0 0 0 2 2 2 2 0 0 0-2 2v5a2 2 0 0 1-2 2h-1"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10M19 21V10M9 21v-6h6v6M2 10l10-6 10 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top">Jinkun Liao</a>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul class="nav-links">
+          <li><a href="#research"><span class="lang-en">Research</span><span class="lang-zh" lang="zh-CN">研究</span><span class="lang-ja" lang="ja">研究</span></a></li>
+          <li><a href="#publications"><span class="lang-en">Publications</span><span class="lang-zh" lang="zh-CN">论文</span><span class="lang-ja" lang="ja">論文</span></a></li>
+          <li><a href="#presentations"><span class="lang-en">Presentations</span><span class="lang-zh" lang="zh-CN">会议报告</span><span class="lang-ja" lang="ja">学会発表</span></a></li>
+          <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-zh" lang="zh-CN">联系</span><span class="lang-ja" lang="ja">連絡先</span></a></li>
+          <li><a href="note.html"><span class="lang-en">Notes</span><span class="lang-zh" lang="zh-CN">笔记</span><span class="lang-ja" lang="ja">ノート</span></a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="zh" lang="zh-CN" aria-pressed="false">中文</button>
+        <button type="button" data-set-lang="ja" lang="ja" aria-pressed="false">日本語</button>
       </div>
-      <div class="header-right">
-        <a href="index.html" class="active">
-          <span class="lang-en">Home</span>
-          <span class="lang-zh">首页</span>
-          <span class="lang-ja">ホーム</span>
-        </a>
-        <a href="cv.html">
-          <span class="lang-en">CV</span>
-          <span class="lang-zh">简历</span>
-          <span class="lang-ja">履歴書</span>
-        </a>
-        <a href="research.html">
-          <span class="lang-en">Research</span>
-          <span class="lang-zh">研究</span>
-          <span class="lang-ja">研究</span>
-        </a>
-        <a href="publications.html">
-          <span class="lang-en">Publications</span>
-          <span class="lang-zh">论文</span>
-          <span class="lang-ja">論文</span>
-        </a>
-        <a href="presentations.html">
-          <span class="lang-en">Presentations</span>
-          <span class="lang-zh">演讲</span>
-          <span class="lang-ja">発表</span>
-        </a>
-        <a href="contact.html">
-          <span class="lang-en">Contact</span>
-          <span class="lang-zh">联系</span>
-          <span class="lang-ja">連絡先</span>
-        </a>
-        <!-- Language Selector -->
-        <div class="lang-selector">
-          <select id="language-select" onchange="changeLanguage(this.value)">
-            <option value="en">English</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-          </select>
-        </div>
-      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg class="icon icon-menu" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- Left Sidebar Drawer -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
-      <div class="sidebar-title">
-        <span class="lang-en">Menu</span>
-        <span class="lang-zh">菜单</span>
-        <span class="lang-ja">メニュー</span>
-      </div>
-      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
-    </div>
-    <div class="sidebar-content">
-      <ul class="sidebar-list">
-        <li class="sidebar-item">
-          <span class="fa fa-sticky-note"></span>
-          <a href="note.html" style="color: inherit; text-decoration: none; flex: 1;">
-            <span class="lang-en">Note</span>
-            <span class="lang-zh">笔记</span>
-            <span class="lang-ja">ノート</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <span class="fa fa-link"></span>
-          <a href="links.html" style="color: inherit; text-decoration: none; flex: 1;">
-            <span class="lang-en">Links</span>
-            <span class="lang-zh">链接</span>
-            <span class="lang-ja">リンク</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <main id="main">
+    <!-- ============ About ============ -->
+    <section class="hero" id="top" aria-labelledby="name">
+      <div class="container hero-grid">
+        <picture class="portrait">
+          <source srcset="assets/img/profile.webp" type="image/webp">
+          <img src="assets/img/profile.jpg" width="480" height="640" alt="Portrait of Jinkun Liao" fetchpriority="high">
+        </picture>
 
-  <div class="top-wrapper">
-    <div class="top-container">
-      <div class="top-right">
-        <div class="profile-section">
-          <img src="pic/Liao.jpeg" alt="Jinkun Liao" class="profile-avatar">
+        <div class="hero-head">
+          <h1 id="name">Jinkun Liao</h1>
+          <p class="native-name">
+            <span class="lang-en" lang="zh-CN">廖锦琨</span>
+            <span class="lang-zh" lang="zh-CN">廖锦琨</span>
+            <span class="lang-ja" lang="ja">リョウ　キンコン</span>
+          </p>
+          <p class="role">
+            <span class="lang-en">Ph.D. Student<span class="sep">·</span><span class="org">Tokyo University of Science</span></span>
+            <span class="lang-zh" lang="zh-CN">博士研究生<span class="sep">·</span><span class="org">东京理科大学</span></span>
+            <span class="lang-ja" lang="ja">博士後期課程<span class="sep">·</span><span class="org">東京理科大学</span></span>
+          </p>
         </div>
-        <div class="text-content">
-          <p class="welcome-text">
-            <span class="lang-en">Welcome</span>
-            <span class="lang-zh">欢迎</span>
-            <span class="lang-ja">ようこそ</span>
-          </p>
-          <h1>
-            <span class="lang-en">Jinkun Liao</span>
-            <span class="lang-zh">廖锦琨</span>
-            <span class="lang-ja">リョウ　キンコン</span>
-          </h1>
-          <h2>
-            <span class="lang-en">Phd student | Tokyo University of Science</span>
-            <span class="lang-zh">博士在读 | 东京理科大学</span>
-            <span class="lang-ja">博士後期課程 | 東京理科大学</span> 
-          </h2>
-          <p class="bio-text">
-            <span class="lang-en">Focusing on Proto-Neutron Star Cooling, dedicated to bridging theoretical research with practical applications.</span>
-            <span class="lang-zh">专注于原始中子星冷却的研究，致力于将理论研究与实际应用相结合。</span>
-            <span class="lang-ja">原始中性子星の冷却に焦点を当て、理論研究を行っています。</span>
-          </p>
-          <div class="top-links">
-            <a href="research.html" class="link-item">
-              <span class="lang-en">Research Interests</span>
-              <span class="lang-zh">研究方向</span>
-              <span class="lang-ja">研究分野</span>
+
+        <div class="hero-body">
+          <p class="bio lang-en">I am a Ph.D. student at Tokyo University of Science working on the theory of proto-neutron stars&nbsp;— the hot, newborn neutron stars formed in core-collapse supernovae. Using general-relativistic simulations with neutrino transport, I study how they cool, focusing on convection, the nuclear equation of state and the reactions inside the star.</p>
+          <p class="bio lang-zh" lang="zh-CN">我是东京理科大学的博士研究生，从事原始中子星的理论研究。原始中子星是核心坍缩超新星中诞生的高温、年轻的中子星。我利用包含中微子输运的广义相对论数值模拟研究其冷却过程，重点关注对流、核物质状态方程以及星体内部的反应。</p>
+          <p class="bio lang-ja" lang="ja">東京理科大学の博士後期課程に在籍し、原始中性子星の理論研究を行っています。原始中性子星は、重力崩壊型超新星で誕生する高温の若い中性子星です。ニュートリノ輸送を含む一般相対論的シミュレーションを用いて、その冷却過程を、対流・核物質の状態方程式・星内部の反応に注目して調べています。</p>
+
+          <ul class="tags lang-en" aria-label="Research interests">
+            <li>Proto-neutron star cooling</li><li>Convection</li><li>Nuclear equation of state</li><li>Reactions in proto-neutron stars</li>
+          </ul>
+          <ul class="tags lang-zh" lang="zh-CN" aria-label="研究方向">
+            <li>原始中子星的冷却</li><li>对流</li><li>核物质状态方程</li><li>原始中子星内的反应</li>
+          </ul>
+          <ul class="tags lang-ja" lang="ja" aria-label="研究分野">
+            <li>原始中性子星の冷却</li><li>対流</li><li>核物質の状態方程式</li><li>原始中性子星内の反応</li>
+          </ul>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:6224704@ed.tus.ac.jp">
+              <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
+              <span class="lang-en">Email</span><span class="lang-zh" lang="zh-CN">邮箱</span><span class="lang-ja" lang="ja">メール</span>
             </a>
-            <a href="publications.html" class="link-item">
-              <span class="lang-en">Publications</span>
-              <span class="lang-zh">发表论文</span>
-              <span class="lang-ja">発表論文</span>
+            <a class="button" href="https://github.com/Jinkun-Liao" rel="me">
+              <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>GitHub
             </a>
-            <a href="contact.html" class="link-item">
-              <span class="lang-en">Contact</span>
-              <span class="lang-zh">联系我</span>
-              <span class="lang-ja">お問い合わせ</span>
-            </a>
+            <!-- More profiles: copy a line above and fill in the address, e.g.
+            <a class="button" href="assets/cv.pdf">CV</a>
+            <a class="button" href="https://orcid.org/0000-0000-0000-0000" rel="me">ORCID</a>
+            <a class="button" href="https://researchmap.jp/your-id" rel="me">researchmap</a>
+            <a class="button" href="https://scholar.google.com/citations?user=XXXX" rel="me">Google Scholar</a>
+            -->
           </div>
+
+          <a class="latest" href="#publications">
+            <span class="latest-label"><span class="lang-en">Latest</span><span class="lang-zh" lang="zh-CN">最新</span><span class="lang-ja" lang="ja">最新</span></span>
+            <span class="lang-en">Proceedings paper published in PoS(TAUP2025)</span>
+            <span class="lang-zh" lang="zh-CN">会议论文已发表于 PoS(TAUP2025)</span>
+            <span class="lang-ja" lang="ja">PoS(TAUP2025) に会議録論文が掲載されました</span>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <footer>
-    <div class="container">
-      <p class="copyright">© <span id="year"></span> Jinkun Liao. All rights reserved.</p>
-      <p>
-        <a href="https://github.com/Jinkun-Liao" class="social-link" target="_blank"><span class="fa fa-github"></span></a>
-        <a href="#" class="social-link"><span class="fa fa-linkedin"></span></a>
-        <a href="#" class="social-link"><span class="fa fa-twitter"></span></a>
-      </p>
+    <!-- ============ Research ============ -->
+    <section class="section" id="research" aria-labelledby="research-title">
+      <div class="container">
+        <h2 class="section-title" id="research-title"><span class="lang-en">Research</span><span class="lang-zh" lang="zh-CN">研究</span><span class="lang-ja" lang="ja">研究</span></h2>
+
+        <p class="lead lang-en">Neutrinos from the next Galactic supernova will be observable for tens of seconds by next-generation detectors such as JUNO and large water-Cherenkov observatories. Reading the full signal requires reliable long-term models of the proto-neutron star as it cools. My research focuses on four topics:</p>
+        <p class="lead lang-zh" lang="zh-CN">下一次银河系超新星的中微子信号，将可被 JUNO 和大型水切伦科夫探测器等新一代设施持续观测数十秒。要解读完整的信号，需要可靠的原始中子星长期冷却模型。我的研究主要集中在以下四个方面：</p>
+        <p class="lead lang-ja" lang="ja">次の銀河系内超新星からのニュートリノは、JUNO や大型水チェレンコフ検出器などの次世代検出器によって数十秒にわたり観測されると期待されています。その信号全体を読み解くには、冷却していく原始中性子星の信頼できる長時間モデルが欠かせません。主に次の四つのテーマに取り組んでいます。</p>
+
+        <div class="focus-grid">
+          <article class="focus">
+            <p class="focus-num">01</p>
+            <h3><span class="lang-en">Proto-neutron star cooling</span><span class="lang-zh" lang="zh-CN">原始中子星的冷却</span><span class="lang-ja" lang="ja">原始中性子星の冷却</span></h3>
+            <p>
+              <span class="lang-en">Long-term evolution of the newborn star, computed with quasi-static, general-relativistic simulations and multi-energy neutrino transport for tens of seconds after core bounce.</span>
+              <span class="lang-zh" lang="zh-CN">利用准静态、广义相对论的数值模拟并结合多能群中微子输运，追踪原始中子星在核心反弹后数十秒的长期冷却演化。</span>
+              <span class="lang-ja" lang="ja">準静的・一般相対論的シミュレーションに多エネルギー群のニュートリノ輸送を組み合わせ、コアバウンス後数十秒にわたる長時間の冷却進化を追跡します。</span>
+            </p>
+          </article>
+          <article class="focus">
+            <p class="focus-num">02</p>
+            <h3><span class="lang-en">Convection</span><span class="lang-zh" lang="zh-CN">对流</span><span class="lang-ja" lang="ja">対流</span></h3>
+            <p>
+              <span class="lang-en">Convection inside the star, treated as diffusive mixing based on mixing-length theory. It enhances the early neutrino emission; extending the model over the full long-term evolution is in progress.</span>
+              <span class="lang-zh" lang="zh-CN">以基于混合长理论的扩散型模型处理星体内部的对流。对流会增强早期的中微子辐射；将其推广到完整的长期演化正在进行中。</span>
+              <span class="lang-ja" lang="ja">星内部の対流を、混合距離理論に基づく拡散型のモデルで扱います。対流は初期のニュートリノ放出を強めます。長時間進化全体への拡張を進めています。</span>
+            </p>
+          </article>
+          <article class="focus">
+            <p class="focus-num">03</p>
+            <h3><span class="lang-en">Nuclear equation of state</span><span class="lang-zh" lang="zh-CN">核物质状态方程</span><span class="lang-ja" lang="ja">核物質の状態方程式</span></h3>
+            <p>
+              <span class="lang-en">How the properties of hot, dense nuclear matter shape the structure and cooling of the star, studied by comparing equations of state such as Shen (1998) and Togashi (2017).</span>
+              <span class="lang-zh" lang="zh-CN">通过比较 Shen（1998）、Togashi（2017）等核物质状态方程，研究高温高密核物质的性质如何影响星体的结构与冷却。</span>
+              <span class="lang-ja" lang="ja">Shen（1998）や Togashi（2017）などの状態方程式を比較し、高温・高密度の核物質の性質が星の構造や冷却にどう影響するかを調べます。</span>
+            </p>
+          </article>
+          <article class="focus">
+            <p class="focus-num">04</p>
+            <h3><span class="lang-en">Reactions in the proto-neutron star</span><span class="lang-zh" lang="zh-CN">原始中子星内的反应</span><span class="lang-ja" lang="ja">原始中性子星内の反応</span></h3>
+            <p>
+              <span class="lang-en">The role of individual neutrino reactions inside the star, in particular their effect on the thermal evolution of the outer layers.</span>
+              <span class="lang-zh" lang="zh-CN">研究原始中子星内部各种中微子反应的作用，特别是它们对外层热演化的影响。</span>
+              <span class="lang-ja" lang="ja">原始中性子星内部における各ニュートリノ反応の役割、特に外層の熱的進化への影響を調べます。</span>
+            </p>
+          </article>
+        </div>
+
+        <p class="see-paper">
+          <span><span class="lang-en">Recent paper:</span><span class="lang-zh" lang="zh-CN">近期论文：</span><span class="lang-ja" lang="ja">最近の論文：</span></span>
+          <a class="text-link" href="#publications" lang="en">Liao, Kato, Nagakura &amp; Suzuki, PoS(TAUP2025) 334 (2026)</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Publications ============ -->
+    <section class="section" id="publications" aria-labelledby="publications-title">
+      <div class="container">
+        <h2 class="section-title" id="publications-title"><span class="lang-en">Publications</span><span class="lang-zh" lang="zh-CN">论文</span><span class="lang-ja" lang="ja">論文</span></h2>
+
+        <!-- To add a paper: copy this <article> block and edit it (newest first). -->
+        <article class="pub" lang="en">
+          <div class="pub-body">
+            <p class="pub-kicker">
+              <span class="badge"><span class="lang-en">Conference proceedings</span><span class="lang-zh" lang="zh-CN">会议论文集</span><span class="lang-ja" lang="ja">会議録</span></span>
+              <span>2026</span>
+            </p>
+            <h3 class="pub-title"><a href="https://doi.org/10.22323/1.511.0334">A research of proto-neutron star evolution and the structure near the surface</a></h3>
+            <p class="pub-authors"><span class="me">Jinkun Liao</span>, Chinami Kato, Hiroki Nagakura, Hideyuki Suzuki</p>
+            <p class="pub-venue"><em>Proceedings of the 19th International Conference on Topics in Astroparticle and Underground Physics (TAUP2025)</em>, PoS(TAUP2025)&nbsp;334</p>
+            <p class="pub-note">
+              <span class="lang-en">We follow proto-neutron star cooling up to 50&nbsp;s after core bounce with general-relativistic simulations and multi-group neutrino transport, compare the structure near the surface for two nuclear equations of state (Shen and Togashi), and show with a mixing-length-based model that convection enhances the early neutrino emission.</span>
+              <span class="lang-zh" lang="zh-CN">利用包含多能群中微子输运的广义相对论模拟，计算原始中子星至核心反弹后 50 秒的冷却过程；比较 Shen 与 Togashi 两种核物质状态方程下表面附近的结构，并通过基于混合长理论的模型表明，对流会增强早期的中微子辐射。</span>
+              <span class="lang-ja" lang="ja">多群ニュートリノ輸送を含む一般相対論的シミュレーションにより、コアバウンス後 50 秒までの原始中性子星の冷却を計算しました。Shen と Togashi の 2 つの状態方程式で表面付近の構造を比較し、混合距離理論に基づくモデルを用いて、対流が初期のニュートリノ放出を強めることを示しました。</span>
+            </p>
+
+            <div class="pub-actions">
+              <a class="button button-sm" href="https://pos.sissa.it/511/334/pdf">
+                <svg class="icon" aria-hidden="true"><use href="#i-file"/></svg>PDF
+              </a>
+              <a class="button button-sm" href="https://doi.org/10.22323/1.511.0334">
+                <svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>DOI
+              </a>
+              <a class="button button-sm" href="https://pos.sissa.it/511/334">
+                <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg>
+                <span class="lang-en">Abstract</span><span class="lang-zh" lang="zh-CN">摘要</span><span class="lang-ja" lang="ja">要旨</span>
+              </a>
+              <button class="button button-sm" type="button" data-bib-toggle aria-expanded="false" aria-controls="bib-taup2025">
+                <svg class="icon" aria-hidden="true"><use href="#i-braces"/></svg>BibTeX
+              </button>
+            </div>
+
+            <div class="bibtex" id="bib-taup2025" hidden>
+<pre id="bib-taup2025-text">@article{Liao:2026Yj,
+  author  = "Liao, Jinkun and Kato, Chinami and Nagakura, Hiroki and Suzuki, Hideyuki",
+  title   = "{A research of proto-neutron star evolution and the structure near the surface}",
+  journal = "PoS",
+  volume  = "TAUP2025",
+  pages   = "334",
+  year    = "2026",
+  doi     = "10.22323/1.511.0334"
+}</pre>
+              <button class="copy-btn" type="button" data-copy="bib-taup2025-text">
+                <span class="when-idle"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span class="lang-en">Copy</span><span class="lang-zh" lang="zh-CN">复制</span><span class="lang-ja" lang="ja">コピー</span></span>
+                <span class="when-done" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="lang-en">Copied</span><span class="lang-zh" lang="zh-CN">已复制</span><span class="lang-ja" lang="ja">コピーしました</span></span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ Presentations ============ -->
+    <section class="section" id="presentations" aria-labelledby="presentations-title">
+      <div class="container">
+        <h2 class="section-title" id="presentations-title"><span class="lang-en">Presentations</span><span class="lang-zh" lang="zh-CN">会议报告</span><span class="lang-ja" lang="ja">学会発表</span></h2>
+
+        <!-- Newest first. To add one, copy an <li> block. Type: data-kind="oral" or data-kind="poster". -->
+        <ul class="talks">
+          <li class="talk">
+            <time class="talk-date" datetime="2025-11">2025.11</time>
+            <div>
+              <p class="talk-title" lang="en">Proto-neutron star evolution with convection</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="en">The third annual conference of Transformative Research Areas (A) “Multimessenger Astrophysics”, Miyagi, Japan</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2025-08">2025.08</time>
+            <div>
+              <p class="talk-title" lang="en">A research of proto-neutron star evolution and the structure near the surface</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="en">19th International Conference on Topics in Astroparticle and Underground Physics (TAUP2025), Xichang, China</span>
+                <a class="talk-link" href="#publications"><span class="lang-en">Proceedings</span><span class="lang-zh" lang="zh-CN">会议论文</span><span class="lang-ja" lang="ja">会議録</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2025-07">2025.07</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星の進化計算及び構造解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="ja">2025年度 第55回 天文・天体物理若手夏の学校（長野）</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2024-03">2024.03</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星の進化計算及び構造解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="oral"></span><span lang="ja">新学術領域「地下から解き明かす宇宙の歴史と物質の進化」第10回超新星ニュートリノ研究会（岡山）</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2024-03">2024.03</time>
+            <div>
+              <p class="talk-title" lang="en">Evolution of Proto-neutron star and the structure near the surface</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="en">Unraveling the History of the Universe and Matter Evolution with Underground Physics 2024, Sendai, Japan</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2024-03">2024.03</time>
+            <div>
+              <p class="talk-title" lang="en">Evolution of Proto-neutron star and the structure near the surface</p>
+              <p class="talk-meta"><span class="kind" data-kind="oral"></span><span lang="ja">第4回新学術「地下宇宙」若手研究会（仙台）</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2023-09">2023.09</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星外層における各ニュートリノ反応の影響の解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="ja">日本天文学会2023年秋季年会（名古屋）</span></p>
+            </div>
+          </li>
+          <!-- TODO(check): the old site listed this summer school (2023年度) as March 2023 — please confirm the month and city. -->
+          <li class="talk">
+            <time class="talk-date" datetime="2023-03">2023.03</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星外層の後期熱的進化に関する詳細な解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="ja">2023年度 第53回 天文・天体物理若手夏の学校（東京）</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2023-03">2023.03</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星外層の後期熱的進化に関する解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="ja">日本天文学会2023年春季年会（東京）</span></p>
+            </div>
+          </li>
+          <li class="talk">
+            <time class="talk-date" datetime="2023-03">2023.03</time>
+            <div>
+              <p class="talk-title" lang="ja">原始中性子星外層の後期熱的進化に関する詳細な解析</p>
+              <p class="talk-meta"><span class="kind" data-kind="poster"></span><span lang="ja">新学術領域「地下から解き明かす宇宙の歴史と物質の進化」第9回超新星ニュートリノ研究会（福岡）</span></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Contact ============ -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="section-title" id="contact-title"><span class="lang-en">Contact</span><span class="lang-zh" lang="zh-CN">联系方式</span><span class="lang-ja" lang="ja">連絡先</span></h2>
+        <div class="contact-grid">
+          <p>
+            <span class="lang-en">Questions and discussions about proto-neutron stars and supernova neutrinos are always welcome.</span>
+            <span class="lang-zh" lang="zh-CN">欢迎就原始中子星与超新星中微子相关的问题与我交流讨论。</span>
+            <span class="lang-ja" lang="ja">原始中性子星や超新星ニュートリノに関するご質問・ご議論を歓迎します。</span>
+          </p>
+          <ul class="contact-list">
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
+              <a class="text-link" href="mailto:6224704@ed.tus.ac.jp">6224704@ed.tus.ac.jp</a>
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>
+              <span><span class="lang-en">Tokyo University of Science</span><span class="lang-zh" lang="zh-CN">东京理科大学</span><span class="lang-ja" lang="ja">東京理科大学</span></span>
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+              <a class="text-link" href="https://github.com/Jinkun-Liao" rel="me">github.com/Jinkun-Liao</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> Jinkun Liao</span>
+      <a href="note.html"><span class="lang-en">Notes</span><span class="lang-zh" lang="zh-CN">笔记</span><span class="lang-ja" lang="ja">ノート</span></a>
     </div>
   </footer>
 
-  <script>
-    // Language Switching
-    function changeLanguage(lang) {
-      document.body.setAttribute('data-lang', lang);
-      localStorage.setItem('preferredLanguage', lang);
-    }
-
-    // Sidebar Toggle
-    const menuIcon = document.querySelector('.menu-icon');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const closeBtn = document.querySelector('.close-sidebar');
-    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
-    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
-    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
-    if (overlay) overlay.addEventListener('click', closeSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-
-    // Initialization
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('year').textContent = new Date().getFullYear();
-      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-      document.getElementById('language-select').value = savedLang;
-      changeLanguage(savedLang);
-
-      // Slideshow Logic
-      const slides = document.querySelectorAll('.slide');
-      let currentSlide = 0;
-      
-      function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-      }
-
-      if (slides.length > 1) {
-        setInterval(nextSlide, 5000); // Change every 5 seconds
-      }
-    });
-  </script>
+  <script src="assets/js/site.js" defer></script>
 </body>
 </html>

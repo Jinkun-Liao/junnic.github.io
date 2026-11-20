@@ -1,17 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-lang="en" class="force-light">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes - Jinkun Liao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes | Jinkun Liao</title>
+  <meta name="description" content="Reading and research notes by Jinkun Liao.">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <script>
+    (function () {
+      var d = document.documentElement, l = null;
+      try { l = localStorage.getItem('preferredLanguage'); } catch (e) {}
+      if (!l) { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('ja') === 0 ? 'ja' : n.indexOf('zh') === 0 ? 'zh' : 'en'; }
+      if (l !== 'zh' && l !== 'ja') l = 'en';
+      d.setAttribute('data-lang', l);
+      d.setAttribute('lang', { en: 'en', zh: 'zh-CN', ja: 'ja' }[l]);
+      d.className += ' js';
+    })();
+  </script>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/notes.css">
   <!-- Prism CSS (theme + plugins) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/toolbar/prism-toolbar.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/show-language/prism-show-language.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
   <!-- KaTeX for math rendering -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -26,88 +44,38 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
-  <style>
-    /* Page-specific minimal overrides if needed (kept empty to use global stylesheet.css) */
-  </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="header-left">
-        <span class="fa fa-bars menu-icon" aria-label="Open sidebar"></span>
-        <h3 class="logo">
-          <span class="lang-en">Jinkun Liao</span>
-          <span class="lang-zh">廖锦琨</span>
-          <span class="lang-ja">リョウ　キンコン</span>
-        </h3>
+  <a class="skip-link" href="#notes-container">Skip to content</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jinkun Liao</a>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul class="nav-links">
+          <li><a href="index.html#research"><span class="lang-en">Research</span><span class="lang-zh" lang="zh-CN">研究</span><span class="lang-ja" lang="ja">研究</span></a></li>
+          <li><a href="index.html#publications"><span class="lang-en">Publications</span><span class="lang-zh" lang="zh-CN">论文</span><span class="lang-ja" lang="ja">論文</span></a></li>
+          <li><a href="index.html#presentations"><span class="lang-en">Presentations</span><span class="lang-zh" lang="zh-CN">会议报告</span><span class="lang-ja" lang="ja">学会発表</span></a></li>
+          <li><a href="index.html#contact"><span class="lang-en">Contact</span><span class="lang-zh" lang="zh-CN">联系</span><span class="lang-ja" lang="ja">連絡先</span></a></li>
+          <li><a href="note.html" aria-current="page"><span class="lang-en">Notes</span><span class="lang-zh" lang="zh-CN">笔记</span><span class="lang-ja" lang="ja">ノート</span></a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="zh" lang="zh-CN" aria-pressed="false">中文</button>
+        <button type="button" data-set-lang="ja" lang="ja" aria-pressed="false">日本語</button>
       </div>
-      <div class="header-right">
-        <a href="index.html">
-          <span class="lang-en">Home</span>
-          <span class="lang-zh">首页</span>
-          <span class="lang-ja">ホーム</span>
-        </a>
-        <a href="cv.html">
-          <span class="lang-en">CV</span>
-          <span class="lang-zh">简历</span>
-          <span class="lang-ja">履歴書</span>
-        </a>
-        <a href="research.html">
-          <span class="lang-en">Research</span>
-          <span class="lang-zh">研究</span>
-          <span class="lang-ja">研究</span>
-        </a>
-        <a href="publications.html">
-          <span class="lang-en">Publications</span>
-          <span class="lang-zh">论文</span>
-          <span class="lang-ja">論文</span>
-        </a>
-        <a href="presentations.html">
-          <span class="lang-en">Presentations</span>
-          <span class="lang-zh">演讲</span>
-          <span class="lang-ja">発表</span>
-        </a>
-        <a href="contact.html">
-          <span class="lang-en">Contact</span>
-          <span class="lang-zh">联系</span>
-          <span class="lang-ja">連絡先</span>
-        </a>
-        <div class="lang-selector">
-          <select id="language-select" onchange="changeLanguage(this.value)">
-            <option value="en">English</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-          </select>
-        </div>
-      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <svg class="icon icon-menu" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
     </div>
   </header>
-
-  <!-- Left Sidebar Drawer -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <img src="pic/logo.jpg" alt="Logo" class="sidebar-logo">
-      <div class="sidebar-title">
-        <span class="lang-en">Menu</span>
-        <span class="lang-zh">菜单</span>
-        <span class="lang-ja">メニュー</span>
-      </div>
-      <span class="fa fa-times close-sidebar" aria-label="Close sidebar"></span>
-    </div>
-    <div class="sidebar-content">
-      <ul class="sidebar-list">
-        <li class="sidebar-item">
-          <span class="fa fa-link"></span>
-          <a href="links.html" style="color: inherit; text-decoration: none; flex: 1;">
-            <span class="lang-en">Links</span>
-            <span class="lang-zh">链接</span>
-            <span class="lang-ja">リンク</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Notes Portal -->
   <div class="notes-container" id="notes-container">
@@ -148,23 +116,6 @@
   </div>
 
   <script>
-    // Language setup
-    function changeLanguage(lang) {
-      document.body.setAttribute('data-lang', lang);
-      localStorage.setItem('preferredLanguage', lang);
-    }
-
-    // Sidebar toggle
-    const menuIcon = document.querySelector('.menu-icon');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const closeBtn = document.querySelector('.close-sidebar');
-    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
-    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
-    if (menuIcon) menuIcon.addEventListener('click', openSidebar);
-    if (overlay) overlay.addEventListener('click', closeSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-
     // Notes data
     let NOTES_INDEX = [];
     let ACTIVE_TAG = null;
@@ -554,7 +505,7 @@
       const articleEl = document.getElementById('note-article');
 
       history.replaceState(null, '', `note.html?note=${encodeURIComponent(slug)}`);
-      document.getElementById('back-btn').style.display = 'inline-block';
+      document.getElementById('back-btn').style.display = 'inline-flex';
 
       showArticleView();
       applyNoteTheme(slug);
@@ -1299,10 +1250,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-      document.getElementById('language-select').value = savedLang;
-      changeLanguage(savedLang);
-
       document.getElementById('search-input').addEventListener('input', (e)=>{ SEARCH_TEXT=e.target.value; ACTIVE_PAGE=1; renderCards(); });
       document.getElementById('refresh-btn').addEventListener('click', loadIndex);
       document.getElementById('back-btn').addEventListener('click', backToList);
@@ -1322,5 +1269,14 @@
       });
     });
   </script>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> Jinkun Liao</span>
+      <a href="index.html"><span class="lang-en">Home</span><span class="lang-zh" lang="zh-CN">首页</span><span class="lang-ja" lang="ja">ホーム</span></a>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js" defer></script>
 </body>
 </html>
